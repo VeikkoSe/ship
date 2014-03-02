@@ -14,6 +14,8 @@ function Model(name) {
     this.vertexPositionBuffer = gl.createBuffer();
     this.texturePositionBuffer = gl.createBuffer();
     this.indexPositionBuffer = gl.createBuffer();
+    this.normalPositionBuffer = gl.createBuffer();
+
 
     this.loadedImages = [];
 
@@ -38,9 +40,13 @@ Model.prototype.inputData = function (data) {
 
     var d = JSON.parse(data);
 
+
     this.vertices = d.vertices;
     this.texturecoordinates = d.texturecoordinates;
-    this.indices = d.indices;
+    if(typeof d.indices !== 'undefined')
+      this.indices = d.indices;
+    if(typeof d.normals !== 'undefined')
+      this.normals = d.normals;
 
 
 };
@@ -48,46 +54,6 @@ Model.prototype.inputData = function (data) {
 
 Model.prototype.buildBuffers = function () {
 
-    /*
-     gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
-     var vertices = [
-     0.0,  1.0,  0.0,
-     -1.0, -1.0,  0.0,
-     1.0, -1.0,  0.0
-     ];
-     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-     this.vertexPositionBuffer.itemSize = 3;
-     this.vertexPositionBuffer.numItems = 3;
-     */
-
-
-    /*
-
-     var that = this;
-     this.texture.image = new Image();
-     this.texture.image.src = this.name + ".png";
-     */
-
-//alert(this.name + ".png"
-
-    //);
-    //this.loadImages(this.name + ".png",this.handleLoadedTexture);
-    /*
-     var images = [this.name + '.png'];
-
-
-     for(var i0;i<images.length-1;++--) {
-     this.loadedImages[i] = new Image();
-     this.loadedImages[i].src = images[i];
-     this.loadedImages[i].onload = function() {
-
-     s.numReadyImages++;
-     };
-     */
-
-
-    // if(image!=undefined)
-    //  this.handleLoadedTexture();
 
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
@@ -107,57 +73,10 @@ Model.prototype.buildBuffers = function () {
     this.indexPositionBuffer.itemSize = 1;
     this.indexPositionBuffer.numItems = this.indices.length;
 
-
+    if(this.normals.length>0) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalPositionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normals), gl.STATIC_DRAW);
+        this.normalPositionBuffer.itemSize = 1;
+        this.normalPositionBuffer.numItems = this.normals.length/3;
+    }
 };
-
-/*
- Model.prototype.loadImage = function (url, callback) {
-
- var image = gl.createTexture();
- image.image = new Image();
- image.image.src = url;
- image.image.onload = callback;
- return image;
-
- };
- */
-
-
-/*
- Model.prototype.loadImages = function(url, callback) {
-
-
-
- var onImageLoad = function() {
-
- callback(image);
-
- };
-
-
-
- var image = this.loadImage(url, onImageLoad);
-
-
-
-
- };
-
-
-
-
- Model.prototype.handleLoadedTexture = function(texture) {
-
-
-
- gl.bindTexture(gl.TEXTURE_2D, texture);
- gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
- gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
- gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
- gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
- gl.bindTexture(gl.TEXTURE_2D, null);
- numReadyImages = 1;
-
-
- };
- */
