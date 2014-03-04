@@ -36,7 +36,7 @@ Model.prototype.loadMesh = function () {
 
 
     var request = new XMLHttpRequest();
-    request.open("GET", this.name + ".js", false);
+    request.open("GET", "resources/models/" + this.name + ".js", false);
     request.send();
 
     this.inputData(request.responseText);

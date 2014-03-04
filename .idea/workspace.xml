@@ -2,9 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d25b09e-3006-4227-afed-6af564ab81f5" name="Default" comment="">
+      <change type="DELETED" beforePath="E:\git\ship\asteroid.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\asteroid.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\bullets.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\bullets.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\js\glMatrix-0.9.5.min.js" afterPath="" />
       <change type="DELETED" beforePath="E:\git\ship\js\params.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\js\webgl-debug.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\js\webgl-utils.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\ship.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\ship.png" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\stars.js" afterPath="" />
+      <change type="DELETED" beforePath="E:\git\ship\stars.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Game.js" afterPath="$PROJECT_DIR$/js/Game.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Model.js" afterPath="$PROJECT_DIR$/js/Model.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Texture.js" afterPath="$PROJECT_DIR$/js/Texture.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asteroid.html" afterPath="$PROJECT_DIR$/asteroid.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -29,10 +41,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="asteroid.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="asteroid.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asteroid.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="415" selection-end="415" vertical-scroll-proportion="-1.6125715" vertical-offset="1683" max-vertical-offset="3145">
+            <state line="22" column="0" selection-start="630" selection-end="630" vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="3145">
               <folding>
                 <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -45,16 +57,16 @@
       <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-12.0" vertical-offset="2896" max-vertical-offset="7463">
+            <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-26.28" vertical-offset="2539" max-vertical-offset="7463">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Texture.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Texture.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/Texture.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="21" selection-start="92" selection-end="92" vertical-scroll-proportion="-2.04" vertical-offset="0" max-vertical-offset="680">
+            <state line="32" column="57" selection-start="921" selection-end="921" vertical-scroll-proportion="0.5660377" vertical-offset="0" max-vertical-offset="901">
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -65,7 +77,7 @@
       <file leaf-file-name="Model.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1751">
+            <state line="19" column="27" selection-start="455" selection-end="455" vertical-scroll-proportion="-12.92" vertical-offset="0" max-vertical-offset="1751">
               <folding />
             </state>
           </provider>
@@ -88,11 +100,11 @@
         <option value="$PROJECT_DIR$/stars.js" />
         <option value="$PROJECT_DIR$/bullets.js" />
         <option value="$PROJECT_DIR$/js/texture.js" />
-        <option value="$PROJECT_DIR$/js/Model.js" />
-        <option value="$PROJECT_DIR$/js/Texture.js" />
         <option value="$PROJECT_DIR$/js/AsteroidModel.js" />
         <option value="$PROJECT_DIR$/js/Game.js" />
+        <option value="$PROJECT_DIR$/js/Model.js" />
         <option value="$PROJECT_DIR$/asteroid.html" />
+        <option value="$PROJECT_DIR$/js/Texture.js" />
       </list>
     </option>
   </component>
@@ -330,39 +342,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="56448" selection-start="56448" selection-end="56456" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="14401" selection-start="14397" selection-end="14401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stars.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="107" selection-start="0" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="92" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/EasyPHP-DevServer-14.1VC11/data/localweb/stars.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="446" selection-start="0" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
@@ -385,39 +364,6 @@
             <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="56448" selection-start="56448" selection-end="56456" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="14401" selection-start="14397" selection-end="14401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stars.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="107" selection-start="0" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="92" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -453,27 +399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="56448" selection-start="56448" selection-end="56456" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="14401" selection-start="14397" selection-end="14401" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stars.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="288" selection-start="288" selection-end="288" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="175" column="57" selection-start="5410" selection-end="5410" vertical-scroll-proportion="0.0" vertical-offset="2627" max-vertical-offset="5389">
@@ -488,39 +413,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="56448" selection-start="56448" selection-end="56456" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="14401" selection-start="14397" selection-end="14401" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/stars.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="107" selection-start="0" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bullets.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="92" selection-start="92" selection-end="92" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1073">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/EasyPHP-DevServer-14.1VC11/data/localweb/stars.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="446" selection-start="0" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
@@ -528,43 +420,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/AsteroidModel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="926">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="20" selection-start="20" selection-end="20" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1751">
+        <state line="19" column="27" selection-start="455" selection-end="455" vertical-scroll-proportion="-12.92" vertical-offset="0" max-vertical-offset="1751">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Texture.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="21" selection-start="92" selection-end="92" vertical-scroll-proportion="-2.04" vertical-offset="0" max-vertical-offset="680">
-          <folding>
-            <element signature="e#0#38#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-12.0" vertical-offset="2896" max-vertical-offset="7463">
+        <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-26.28" vertical-offset="2539" max-vertical-offset="7463">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/asteroid.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="415" selection-end="415" vertical-scroll-proportion="-1.6125715" vertical-offset="1683" max-vertical-offset="3145">
+        <state line="22" column="0" selection-start="630" selection-end="630" vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="3145">
           <folding>
             <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Texture.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="57" selection-start="921" selection-end="921" vertical-scroll-proportion="0.5660377" vertical-offset="0" max-vertical-offset="901">
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
           </folding>
         </state>
       </provider>

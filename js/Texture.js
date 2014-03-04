@@ -30,7 +30,7 @@ Texture.prototype.initTexture = function(name) {
     this.loadedTexture = gl.createTexture();
     this.loadedTexture.image = new Image();
     this.loadedTexture.image.onload = this.handleLoadedTexture.bind(this);
-    this.loadedTexture.image.src = name + '.png';
+    this.loadedTexture.image.src = 'resources/images/' + name + '.png';
 
 }
 
