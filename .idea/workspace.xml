@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d25b09e-3006-4227-afed-6af564ab81f5" name="Default" comment="">
-      <change type="DELETED" beforePath="E:\git\ship\asteroid.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\asteroid.png" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\bullets.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\bullets.png" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\js\glMatrix-0.9.5.min.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\js\params.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\js\webgl-debug.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\js\webgl-utils.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\ship.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\ship.png" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\stars.js" afterPath="" />
-      <change type="DELETED" beforePath="E:\git\ship\stars.png" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Game.js" afterPath="$PROJECT_DIR$/js/Game.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Model.js" afterPath="$PROJECT_DIR$/js/Model.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Texture.js" afterPath="$PROJECT_DIR$/js/Texture.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/asteroid.html" afterPath="$PROJECT_DIR$/asteroid.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="E:\git\ship\asteroid.html" afterPath="" />
     </list>
     <ignored path="ship.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,25 +25,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="asteroid.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/asteroid.html">
+      <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="171" column="12" selection-start="5376" selection-end="5376" vertical-scroll-proportion="3.0788572" vertical-offset="213" max-vertical-offset="3281">
-              <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state line="172" column="0" selection-start="5649" selection-end="5649" vertical-scroll-proportion="-15.4" vertical-offset="2539" max-vertical-offset="7463">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/Game.js">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-26.28" vertical-offset="2539" max-vertical-offset="7463">
-              <folding />
+            <state line="180" column="44" selection-start="6079" selection-end="6079" vertical-scroll-proportion="0.7355555" vertical-offset="2398" max-vertical-offset="3298">
+              <folding>
+                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,6 +88,7 @@
         <option value="$PROJECT_DIR$/js/Model.js" />
         <option value="$PROJECT_DIR$/js/Texture.js" />
         <option value="$PROJECT_DIR$/asteroid.html" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -180,7 +163,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/js/Texture.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/index.html" />
     <property name="LayoutCode.rearrangeEntriesHTML" value="false" />
     <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
   </component>
@@ -316,18 +299,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/asteroid.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="72" selection-start="108" selection-end="108" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2244">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Game.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="138" column="50" selection-start="3900" selection-end="3900" vertical-scroll-proportion="0.0" vertical-offset="2063" max-vertical-offset="8041">
@@ -358,18 +329,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="193" column="23" selection-start="5644" selection-end="5644" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3774">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://E:/EasyPHP-DevServer-14.1VC11/data/localweb/stars.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="446" selection-start="0" selection-end="637" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102">
@@ -388,18 +347,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="22" selection-start="916" selection-end="918" vertical-scroll-proportion="0.0" vertical-offset="435" max-vertical-offset="1496">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="33" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0" vertical-offset="647" max-vertical-offset="3638">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -431,13 +378,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="27" selection-start="6290" selection-end="6290" vertical-scroll-proportion="-26.28" vertical-offset="2539" max-vertical-offset="7463">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/Texture.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="1" selection-start="938" selection-end="938" vertical-scroll-proportion="-21.76" vertical-offset="0" max-vertical-offset="680">
@@ -447,13 +387,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asteroid.html">
+    <entry file="file://$PROJECT_DIR$/js/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="12" selection-start="5376" selection-end="5376" vertical-scroll-proportion="3.0788572" vertical-offset="213" max-vertical-offset="3281">
+        <state line="172" column="0" selection-start="5649" selection-end="5649" vertical-scroll-proportion="-15.4" vertical-offset="2539" max-vertical-offset="7463">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="180" column="44" selection-start="6079" selection-end="6079" vertical-scroll-proportion="0.7355555" vertical-offset="2398" max-vertical-offset="3298">
           <folding>
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#1;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
