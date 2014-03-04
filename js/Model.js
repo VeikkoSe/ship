@@ -1,4 +1,4 @@
-function Model(name) {
+var Model = function(name) {
 
     this.name = name;
     this.vertices = null;
@@ -19,6 +19,15 @@ function Model(name) {
 
     this.loadedImages = [];
 
+    this.loadMesh();
+    var t = new Texture(this.name);
+
+    this.texture = t.loadedTexture;
+    this.textureLoaded = t.loaded;
+
+
+
+
 
 }
 
@@ -31,6 +40,12 @@ Model.prototype.loadMesh = function () {
     request.send();
 
     this.inputData(request.responseText);
+
+
+
+    this.buildBuffers();
+
+
 
 
 };

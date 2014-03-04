@@ -1,4 +1,5 @@
-function Game(name) {
+var Game = function(name) {
+
 
     this.asteroids = [];
     this.ship = null;
@@ -8,13 +9,14 @@ function Game(name) {
     this.yRot = 0;
     this.lastTime = 0;
     this.mvMatrixStack = [];
+    this.mvMatrix = mat4.create();
+    this.pMatrix = mat4.create();
     this.frameCount = 0;
     this.elapsedTotal = 0;
     this.texturesLoaded = 0;
     this.asteroidSpeed = 10;
     this.bulletSpeed = 20;
 
-    //this.vertexPositionBuffer = null;
 
 }
 
@@ -86,7 +88,6 @@ Game.prototype.animate = function () {
         }
 
 
-
         if (this.elapsedTotal >= 1000) {
             var fps = this.frameCount;
             this.frameCount = 0;
@@ -98,11 +99,7 @@ Game.prototype.animate = function () {
                 document.getElementById('fps').style.color = 'green';
             document.getElementById('fps').innerHTML = fps;
         }
-
-
     }
-
-
     this.lastTime = timeNow;
 }
 
@@ -128,15 +125,16 @@ Game.prototype.drawShip = function () {
     //draw ship
     this.mvPushMatrix();
 
-    mat4.translate(mvMatrix, [0, 0, 0]);
-    mat4.rotate(mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
+    mat4.translate(this.mvMatrix, [0, 0, 0]);
+    mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.texturePositionBuffer);
     gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, this.ship.texturePositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
     gl.activeTexture(gl.TEXTURE0);
     //gl.bindTexture(gl.TEXTURE_2D, this.models[i].texture);
-    gl.bindTexture(gl.TEXTURE_2D, textures[0]);
+
+    gl.bindTexture(gl.TEXTURE_2D, this.ship.texture);
     gl.uniform1i(shaderProgram.samplerUniform, 0);
 
 
@@ -159,12 +157,12 @@ Game.prototype.drawBullets = function () {
     for (var i = 0; i < this.bullets.length; i++) {
         this.mvPushMatrix();
 
-        mat4.translate(mvMatrix, [this.bullets[i].xPos, this.bullets[i].yPos, 0]);
+        mat4.translate(this.mvMatrix, [this.bullets[i].xPos, this.bullets[i].yPos, 0]);
         gl.activeTexture(gl.TEXTURE0);
         //gl.bindTexture(gl.TEXTURE_2D, this.models[i].texture);
         gl.bindTexture(gl.TEXTURE_2D, textures[1]);
         //gl.uniform1i(shaderProgram.samplerUniform, 0);
-        mat4.rotate(mvMatrix, this.degToRad(this.xRot), [0.0, 0.0, 1.0]);
+        mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [0.0, 0.0, 1.0]);
         gl.uniform3f(shaderProgram.colorUniform, 1, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].texturePositionBuffer);
@@ -188,15 +186,15 @@ Game.prototype.drawAsteroids = function () {
     for (var i = 0; i < this.asteroids.length; i++) {
 
         this.mvPushMatrix();
-        mat4.translate(mvMatrix, [this.asteroids[i].xPos, this.asteroids[i].yPos, 0]);
-        mat4.rotate(mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
+        mat4.translate(this.mvMatrix, [this.asteroids[i].xPos, this.asteroids[i].yPos, 0]);
+        mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].texturePositionBuffer);
         gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, this.asteroids[i].texturePositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.activeTexture(gl.TEXTURE0);
         //textures are in global variable and we just get it by index after ship and bullet
-        gl.bindTexture(gl.TEXTURE_2D, textures[i + 2]);
+        gl.bindTexture(gl.TEXTURE_2D, this.asteroids[i].texture);
         gl.uniform1i(shaderProgram.samplerUniform, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].normalPositionBuffer);
@@ -215,6 +213,7 @@ Game.prototype.drawAsteroids = function () {
 
 }
 
+
 Game.prototype.drawScene = function () {
 
 
@@ -222,12 +221,12 @@ Game.prototype.drawScene = function () {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
-    mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 200.0, pMatrix);
+    mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 200.0, this.pMatrix);
 
-    mat4.identity(mvMatrix);
+    mat4.identity(this.mvMatrix);
 
 
-    mat4.translate(mvMatrix, [0.0, 0.0, -100.0]);
+    mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
 
     //blending
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
@@ -235,31 +234,31 @@ Game.prototype.drawScene = function () {
 
     gl.uniform1f(shaderProgram.alphaUniform, parseFloat(1));
 
-
     gl.uniform1i(shaderProgram.useLightingUniform, true);
 
     gl.uniform3f(
         shaderProgram.ambientColorUniform,
-        parseFloat(1), //document.getElementById("ambientR").value
-        parseFloat(1), //document.getElementById("ambientG").value
-        parseFloat(1) //document.getElementById("ambientB").value
+        parseFloat(6), //document.getElementById("ambientR").value
+        parseFloat(6), //document.getElementById("ambientG").value
+        parseFloat(6) //document.getElementById("ambientB").value
     );
 
 
     this.drawShip();
-    this.drawBullets();
+    //this.drawBullets();
     this.drawAsteroids();
+    //this.drawbackground();
 
 
 }
 
 
 Game.prototype.setMatrixUniforms = function () {
-    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, this.pMatrix);
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, this.mvMatrix);
 
     var normalMatrix = mat3.create();
-    mat4.toInverseMat3(mvMatrix, normalMatrix);
+    mat4.toInverseMat3(this.mvMatrix, normalMatrix);
     mat3.transpose(normalMatrix);
     gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
 
@@ -269,7 +268,7 @@ Game.prototype.setMatrixUniforms = function () {
 
 Game.prototype.mvPushMatrix = function () {
     var copy = mat4.create();
-    mat4.set(mvMatrix, copy);
+    mat4.set(this.mvMatrix, copy);
     this.mvMatrixStack.push(copy);
 };
 
@@ -277,7 +276,7 @@ Game.prototype.mvPopMatrix = function () {
     if (this.mvMatrixStack.length == 0) {
         throw "Invalid popMatrix!";
     }
-    mvMatrix = this.mvMatrixStack.pop();
+    this.mvMatrix = this.mvMatrixStack.pop();
 
 }
 
@@ -300,38 +299,17 @@ Game.prototype.init = function (canvas) {
 
 
     this.ship = new Model('ship');
-    this.ship.loadMesh();
-    this.ship.buildBuffers();
-    initTexture(this.ship.name);
 
 
-    for (i = 0; i < 20; i++)
-        this.bullets.push(new Model('bullets'));
 
+    var asteroid;
     var randomnumberRot = 0;
-    randomnumberRot = this.randomIntFromInterval(-360, 360);
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].loadMesh();
-        this.bullets[i].buildBuffers();
-
-        randomnumberRot = this.randomIntFromInterval(-360, 360);
-        this.bullets[i].xPos = 70;
-        this.bullets[i].yPos = 70;
-        this.bullets[i].rotation = randomnumberRot;
-        initTexture(this.bullets[i].name);
-    }
-
-
-    for (i = 0; i < 10; i++)
-        this.asteroids.push(new Model('asteroid'));
-
-
     var randomnumberX = 0;
     var randomnumberY = 0;
+    for (i = 0; i < 10; i++)
+    {
+         asteroid = new Model('asteroid');
 
-    for (var i = 0; i < this.asteroids.length; i++) {
-        this.asteroids[i].loadMesh();
-        this.asteroids[i].buildBuffers();
         do {
 
             randomnumberX = this.randomIntFromInterval(-80, 80);
@@ -343,22 +321,90 @@ Game.prototype.init = function (canvas) {
         }
         while (randomnumberY > 30 && randomnumberY < -30)
 
-
         //randomnumberY=Math.floor(Math.random()*91)-45;
         randomnumberRot = this.randomIntFromInterval(-360, 360);
-        this.asteroids[i].xPos = randomnumberX;
-        this.asteroids[i].yPos = randomnumberY;
-        this.asteroids[i].rotation = randomnumberRot;
-        initTexture(this.asteroids[i].name);
+        asteroid.xPos = randomnumberX;
+        asteroid.yPos = randomnumberY;
+        asteroid.rotation = randomnumberRot;
 
 
+
+
+
+        this.asteroids.push(asteroid);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //alert(this.ship.texture.loaded);
+    //var something=this.ship.texture.loaded;
+    /*
+     var something_cachedValue = this.ship.loadedTexture;
+     var that = this;
+     function doStuff() {
+
+     if(that.ship.textureLoaded === something_cachedValue) {
+
+     setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
+     return;
+     }
+
+
+
+     something_cachedValue=that.ship.loadedTexture;
+
+
+
+
+     }
+
+     doStuff();
+     */
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     //gl.enable(gl.DEPTH_TEST);
     gl.disable(gl.DEPTH_TEST);
 
     this.tick();
+    /*
+
+     for (i = 0; i < 20; i++)
+     this.bullets.push(new Model('bullets'));
+
+     var randomnumberRot = 0;
+     randomnumberRot = this.randomIntFromInterval(-360, 360);
+     for (var i = 0; i < this.bullets.length; i++) {
+     this.bullets[i].loadMesh();
+     this.bullets[i].buildBuffers();
+
+     randomnumberRot = this.randomIntFromInterval(-360, 360);
+     this.bullets[i].xPos = 70;
+     this.bullets[i].yPos = 70;
+     this.bullets[i].rotation = randomnumberRot;
+     initTexture(this.bullets[i].name);
+     }
+
+
+
+
+
+     }
+     */
 
 
 }
