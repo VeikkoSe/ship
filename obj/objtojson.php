@@ -164,16 +164,16 @@ $cd  = $r->getConvertedData();
   
     foreach($cd as $row)
 	{
-		$arr['verts'][] = $row['v'][0];
-		$arr['verts'][] = $row['v'][1];
-		$arr['verts'][] = $row['v'][2];
+		$arr['vertices'][] = $row['v'][0];
+		$arr['vertices'][] = $row['v'][1];
+		$arr['vertices'][] = $row['v'][2];
 
-		$arr['tex'][] = $row['vt'][0];
-		$arr['tex'][] = $row['vt'][1];
+		$arr['texturecoordinates'][] = $row['vt'][0];
+		$arr['texturecoordinates'][] = $row['vt'][1];
 
-		$arr['norm'][] = $row['vn'][0];
-		$arr['norm'][] = $row['vn'][1];
-		$arr['norm'][] = $row['vn'][2];
+		$arr['normals'][] = $row['vn'][0];
+		$arr['normals'][] = $row['vn'][1];
+		$arr['normals'][] = $row['vn'][2];
 	}
 
 

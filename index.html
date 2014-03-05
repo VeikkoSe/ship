@@ -173,6 +173,10 @@
 </head>
 <body onload="webGLStart();">
 <div style="float:left;padding:20px;width:45%;">
+<h1>How hard can drawing a background be? 2014-03-05</h1>
+    <p>Apparently way too hard. My window by default is 800*600px. If I wan't to draw mesh in background  I need to create 800*600px ish mesh? Not really but I did. Then I still need to scale it down in the end so it looks nice.</p>
+    <p>Then Blender don't wanna show mesh that big without changing clipping ranges. I also changed the asteroids size so you can actually see them.</p>
+    <p>Background is from <a href="http://www.afranko.com/">http://www.afranko.com</a>. I hope there are no copyright issues :(</p>
 <h1>Creating new crappy code 2014-03-04</h1>
     <p>Went and reorganized the texture loading to get rid of few global variables. This also allows me not to pay attention about index order of textures when drawing. Much pride. Huge success.</p>
     <p>Next step would be to create different shaders to different types of meshes so I can fix the opasity problems introduced with ammunition</p>
@@ -183,7 +187,6 @@
 <div style="float:right;padding:20px;width:45%;"></span>
 <canvas  id="canvas" style="border: none;" width="800" height="600"></canvas>
 <div style="font-size:50px;">FPS: <span id="fps">Loading...</span></div>
-<div>GitHub <a href="https://github.com/VeikkoSe/ship">https://github.com/VeikkoSe/ship</a></div>
 </div>
 </body>
 </html>
