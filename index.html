@@ -2,17 +2,18 @@
 
 <head>
     <title>WEBGL</title>
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-
+    <meta http-equiv="content-type" content="text/html; charset=utf8">
+    <link href="css/smoothness/jquery-ui-1.8.13.custom.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="js/gl/glMatrix-0.9.5.min.js"></script>
     <script type="text/javascript" src="js/gl/webgl-utils.js"></script>
     <script type="text/javascript" src="js/gl/webgl-debug.js"></script>
+    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
     <script type="text/javascript">
 
 
         var gl;
         var shaderProgram;
-
 
 
     </script>
@@ -21,23 +22,48 @@
     <script type="text/javascript" src="js/Game.js"></script>
 
 
-    <script id="shader-fs" type="x-shader/x-fragment">
+    <script id="per-fragment-lighting-fs" type="x-shader/x-fragment">
     precision mediump float;
 
+    varying vec3 vTransformedNormal;
+    varying vec4 vPosition;
     varying vec2 vTextureCoord;
-    varying vec3 vLightWeighting;
 
+    uniform float uMaterialShininess;
+
+    uniform vec3 uLightAmbient;
+
+    uniform vec3 uLightPosition;
+    uniform vec3 uLightSpecular;
+    uniform vec3 uLightDiffuse;
     uniform sampler2D uSampler;
-    uniform float uAlpha;
 
     void main(void) {
-        vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-        gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a * uAlpha);
+        vec3 lightWeighting;
+
+            vec3 lightDirection = normalize(uLightPosition - vPosition.xyz);
+            vec3 normal = normalize(vTransformedNormal);
+
+            float specularLightWeighting = 0.0;
+
+                vec3 eyeDirection = normalize(-vPosition.xyz);
+                vec3 reflectionDirection = reflect(-lightDirection, normal);
+
+                specularLightWeighting = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess);
+
+            float diffuseLightWeighting = max(dot(normal, lightDirection), 0.0);
+            lightWeighting = uLightAmbient + uLightSpecular * specularLightWeighting + uLightDiffuse * diffuseLightWeighting;
+
+
+            //vec4 fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
+            vec4 fragmentColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+
+        gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a);
     }
 
     </script>
 
-    <script id="shader-vs" type="x-shader/x-vertex">
+    <script id="per-fragment-lighting-vs" type="x-shader/x-vertex">
     attribute vec3 aVertexPosition;
     attribute vec3 aVertexNormal;
     attribute vec2 aTextureCoord;
@@ -46,23 +72,19 @@
     uniform mat4 uPMatrix;
     uniform mat3 uNMatrix;
 
-    uniform vec3 uAmbientColor;
-
-    uniform vec3 uLightingDirection;
-    uniform vec3 uDirectionalColor;
-    varying vec3 vLightWeighting;
-
+    varying vec3 vTransformedNormal;
+    varying vec4 vPosition;
     varying vec2 vTextureCoord;
 
 
     void main(void) {
-        gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+
+
+        vPosition = uMVMatrix * vec4(aVertexPosition, 1.0);
         vTextureCoord = aTextureCoord;
+        gl_Position = uPMatrix * vPosition;
 
-        vec3 transformedNormal = uNMatrix * aVertexNormal;
-        float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
-        vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
-
+        vTransformedNormal = uNMatrix * aVertexNormal;
     }
 
     </script>
@@ -70,12 +92,9 @@
     <script type="text/javascript">
 
 
-
-
         function initShaders() {
-
-            var fragmentShader = getShader(gl, "shader-fs");
-            var vertexShader = getShader(gl, "shader-vs");
+            var fragmentShader = getShader(gl, "per-fragment-lighting-fs");
+            var vertexShader = getShader(gl, "per-fragment-lighting-vs");
 
             shaderProgram = gl.createProgram();
             gl.attachShader(shaderProgram, vertexShader);
@@ -88,23 +107,31 @@
 
             gl.useProgram(shaderProgram);
 
-            shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-            gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+            shaderProgram.aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+            gl.enableVertexAttribArray(shaderProgram.aVertexPosition);
 
             shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
             gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
 
-            shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-            gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
+            shaderProgram.aVertexNormal = gl.getAttribLocation(shaderProgram, "aVertexNormal");
+            gl.enableVertexAttribArray(shaderProgram.aVertexNormal);
 
 
-            shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-            shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-            shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
+            shaderProgram.uPMatrix = gl.getUniformLocation(shaderProgram, "uPMatrix");
+            shaderProgram.uMVMatrix = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+            shaderProgram.uNMatrix = gl.getUniformLocation(shaderProgram, "uNMatrix");
             shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
-            shaderProgram.useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
-            shaderProgram.ambientColorUniform = gl.getUniformLocation(shaderProgram, "uAmbientColor");
-            shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, "uAlpha");
+
+            shaderProgram.uMaterialShininess = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
+            shaderProgram.uAmbient = gl.getUniformLocation(shaderProgram, "uAmbient");
+            //shaderProgram.uMaterialDiffuse = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse");
+            //shaderProgram.uMaterialSpecular = gl.getUniformLocation(shaderProgram, "uMaterialSpecular");
+
+
+            shaderProgram.uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
+            shaderProgram.uLightAmbient = gl.getUniformLocation(shaderProgram, "uLightAmbient");
+            shaderProgram.uLightDiffuse = gl.getUniformLocation(shaderProgram, "uLightDiffuse");
+            shaderProgram.uLightSpecular = gl.getUniformLocation(shaderProgram, "uLightSpecular");
 
 
         }
@@ -154,7 +181,7 @@
         function webGLStart() {
             var canvas = document.getElementById("canvas");
             var game;
-            game = new Game(gl,'asteroid');
+            game = new Game(gl, 'asteroid');
             game.init(canvas);
 
         }
@@ -172,21 +199,57 @@
     </style>
 </head>
 <body onload="webGLStart();">
-<div style="float:left;padding:20px;width:45%;">
-<h1>How hard can drawing a background be? 2014-03-05</h1>
-    <p>Apparently way too hard. My window by default is 800*600px. If I wan't to draw mesh in background  I need to create 800*600px ish mesh? Not really but I did. Then I still need to scale it down in the end so it looks nice.</p>
-    <p>Then Blender don't wanna show mesh that big without changing clipping ranges. I also changed the asteroids size so you can actually see them.</p>
-    <p>Background is from <a href="http://www.afranko.com/">http://www.afranko.com</a>. I hope there are no copyright issues :(</p>
-<h1>Creating new crappy code 2014-03-04</h1>
-    <p>Went and reorganized the texture loading to get rid of few global variables. This also allows me not to pay attention about index order of textures when drawing. Much pride. Huge success.</p>
-    <p>Next step would be to create different shaders to different types of meshes so I can fix the opasity problems introduced with ammunition</p>
-    <p>When left idle the asteroids will hide in the shadows and attack in unison. No clue why. Pause is needed I guess.</p>
-<h1>Doing something with my free time 2014-02-00</h1>
-    <p>Hi. These are just my random thoughts about webgl and trying something new.</p>
+
+
+<canvas id="canvas" style="border: none;" width="800" height="600"></canvas>
+
+
+<div id="bottom">
+    <table style="padding=0px">
+        <tr>
+            <td>light X:</td>
+            <td id='slider-x-value' width='30px'>25</td>
+            <td width="150px">
+                <div id="slider-x"/>
+            </td>
+        </tr>
+        <tr>
+            <td>light Y:</td>
+            <td id="slider-y-value" width="30px">2</td>
+            <td width="150px">
+                <div id="slider-y"/>
+            </td>
+        </tr>
+        <tr>
+            <td>light Z:</td>
+            <td id="slider-z-value" width="30px">-15</td>
+            <td width="150px">
+                <div id="slider-z"/>
+            </td>
+        </tr>
+    </table>
+
 </div>
-<div style="float:right;padding:20px;width:45%;"></span>
-<canvas  id="canvas" style="border: none;" width="800" height="600"></canvas>
-<div style="font-size:50px;">FPS: <span id="fps">Loading...</span></div>
-</div>
+<script>
+
+    $('#slider-x').slider({value: 54.0, min: -100, max: 100, step: 0.1, slide: updateLightPosition, change: updateLightPosition});
+    $('#slider-y').slider({value: -70.0, min: -100, max: 100, step: 0.1, slide: updateLightPosition, change: updateLightPosition});
+    $('#slider-z').slider({value: 12, min: -100, max: 100, step: 0.1, slide: updateLightPosition, change: updateLightPosition});
+
+
+    function updateLightPosition() {
+        var x = $('#slider-x').slider("value");
+        var y = $('#slider-y').slider("value");
+        var z = $('#slider-z').slider("value");
+        gl.uniform3f(shaderProgram.uLightPosition, x, y, z);
+        $('#slider-x-value').html(x);
+        $('#slider-y-value').html(y);
+        $('#slider-z-value').html(z);
+    }
+
+
+</script>
+
+
 </body>
 </html>
