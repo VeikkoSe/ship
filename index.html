@@ -37,6 +37,9 @@
     uniform vec3 uLightSpecular;
     uniform vec3 uLightDiffuse;
     uniform sampler2D uSampler;
+    uniform float uAlpha;
+    //blended element is drawn without lightning so it's always really bright
+    uniform bool uUseLighting;
 
     void main(void) {
         vec3 lightWeighting;
@@ -52,13 +55,17 @@
                 specularLightWeighting = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess);
 
             float diffuseLightWeighting = max(dot(normal, lightDirection), 0.0);
-            lightWeighting = uLightAmbient + uLightSpecular * specularLightWeighting + uLightDiffuse * diffuseLightWeighting;
+            if(uUseLighting)
+              lightWeighting = uLightAmbient + uLightSpecular * specularLightWeighting + uLightDiffuse * diffuseLightWeighting;
+            else
+              lightWeighting = vec3(1.0, 1.0, 1.0);
+
 
 
             //vec4 fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
             vec4 fragmentColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
 
-        gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a);
+        gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a * uAlpha);
     }
 
     </script>
@@ -132,6 +139,10 @@
             shaderProgram.uLightAmbient = gl.getUniformLocation(shaderProgram, "uLightAmbient");
             shaderProgram.uLightDiffuse = gl.getUniformLocation(shaderProgram, "uLightDiffuse");
             shaderProgram.uLightSpecular = gl.getUniformLocation(shaderProgram, "uLightSpecular");
+
+
+            shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, "uAlpha");
+            shaderProgram.useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
 
 
         }

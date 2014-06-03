@@ -5,9 +5,10 @@ var Game = function(name) {
     this.ship = null;
     this.sun = null;
     this.bullets = [];
+
     this.xRot = 0;
-    this.zRot = 0;
-    this.yRot = 0;
+
+
     this.lastTime = 0;
     this.mvMatrixStack = [];
     this.mvMatrix = mat4.create();
@@ -16,7 +17,7 @@ var Game = function(name) {
     this.elapsedTotal = 0;
     this.background = null;
     this.asteroidSpeed = 10;
-    this.bulletSpeed = 20;
+    this.bulletSpeed = 50;
 
 
 }
@@ -125,7 +126,7 @@ Game.prototype.degToRad = function (degrees) {
 Game.prototype.drawShip = function () {
     //draw ship
     this.mvPushMatrix();
-
+    //
    // mat4.translate(this.mvMatrix, [0, 0, 0]);
     mat4.translate(this.mvMatrix, [0,0,0]);
     mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
@@ -152,7 +153,7 @@ Game.prototype.drawShip = function () {
 
     this.setMatrixUniforms();
     gl.drawElements(gl.TRIANGLES, this.ship.indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-
+   // gl.disable(gl.BLEND);
     this.mvPopMatrix();
 
 }
@@ -197,30 +198,107 @@ Game.prototype.drawBackground = function () {
 
 Game.prototype.drawBullets = function () {
     //draw bullets
+
+    gl.uniform1i(shaderProgram.useLightingUniform, false);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.enable(gl.BLEND);
+    gl.disable(gl.DEPTH_TEST);
+    gl.uniform1f(shaderProgram.alphaUniform,0.5);
+
+
     for (var i = 0; i < this.bullets.length; i++) {
         this.mvPushMatrix();
 
         mat4.translate(this.mvMatrix, [this.bullets[i].xPos, this.bullets[i].yPos, 0]);
-        gl.activeTexture(gl.TEXTURE0);
-        //gl.bindTexture(gl.TEXTURE_2D, this.models[i].texture);
-        gl.bindTexture(gl.TEXTURE_2D, textures[1]);
-        //gl.uniform1i(shaderProgram.samplerUniform, 0);
-        mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [0.0, 0.0, 1.0]);
-        gl.uniform3f(shaderProgram.colorUniform, 1, 0, 0);
+        //mat4.translate(this.mvMatrix,[ 0, 0, 0]);
+        gl.uniform1f(shaderProgram.uMaterialShininess,200.0);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].texturePositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, this.bullets[i].texturePositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].normalPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.aVertexNormal, this.bullets[i].normalPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].vertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.aVertexPosition, this.bullets[i].vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].normalPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].texturePositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.activeTexture(gl.TEXTURE0);
+
+        gl.bindTexture(gl.TEXTURE_2D, this.bullets[i].texture);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bullets[i].indexPositionBuffer);
+        this.setMatrixUniforms();
+        gl.drawElements(gl.TRIANGLES, this.bullets[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+
+        gl.uniform1f(shaderProgram.uMaterialShininess,200.0);
+
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].vertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].normalPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].texturePositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.activeTexture(gl.TEXTURE0);
+
+        gl.bindTexture(gl.TEXTURE_2D, this.bullets[i].texture);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bullets[i].indexPositionBuffer);
+        this.setMatrixUniforms();
+        gl.drawElements(gl.TRIANGLES, this.bullets[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+
+        gl.uniform1f(shaderProgram.uMaterialShininess,200.0);
+
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].vertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].normalPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.bullets[i].texturePositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+
+
+
+        gl.activeTexture(gl.TEXTURE0);
+
+        gl.bindTexture(gl.TEXTURE_2D, this.bullets[i].texture);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.bullets[i].indexPositionBuffer);
         this.setMatrixUniforms();
         gl.drawElements(gl.TRIANGLES, this.bullets[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
         this.mvPopMatrix();
     }
+
+    gl.disable(gl.BLEND);
+    gl.enable(gl.DEPTH_TEST);
+    gl.uniform1i(shaderProgram.useLightingUniform, true);
+
+
 
 }
 
@@ -354,9 +432,10 @@ Game.prototype.drawScene = function () {
 
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-
+    gl.uniform1i(shaderProgram.useLightingUniform, true);
+    gl.uniform1f(shaderProgram.alphaUniform,1);
     mat4.perspective(60, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0, this.pMatrix);
+    gl.disable(gl.DEPTH_TEST);
 
     //Light uniforms
     var x = $('#slider-x').slider("value");
@@ -388,13 +467,15 @@ Game.prototype.drawScene = function () {
 
     mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
 
-
+    this.drawBackground();
     this.drawShip();
-    //this.drawBullets();
+
     this.drawAsteroids();
     this.drawSun();
-   // this.drawSun2();
-    this.drawBackground();
+
+    this.drawBullets();
+
+
 
 
 }
@@ -438,10 +519,11 @@ Game.prototype.randomIntFromInterval = function (min, max) {
 Game.prototype.init = function (canvas) {
     this.initGL(canvas);
     initShaders();
-    //gl.enable(gl.CULL_FACE);
-    //gl.enable(gl.BLEND);
-    gl.clearColor(0.3, 0.3, 0.3, 1.0);
-    gl.enable(gl.DEPTH_TEST);
+    gl.enable(gl.CULL_FACE);
+
+
+
+    //gl.enable(gl.DEPTH_TEST);
 
 
     this.ship = new Model('ship');
@@ -450,6 +532,8 @@ Game.prototype.init = function (canvas) {
 
 
     this.sun = new Model('asteroid');
+
+
 
     var asteroid;
     var randomnumberRot = 0;
@@ -484,14 +568,16 @@ Game.prototype.init = function (canvas) {
     }
 
 
+    var bullet;
+    for (var i = 0; i < 1; i++)
+    {
+        bullet = new Model('bigbullet');
+        this.bullets.push(bullet);
+    }
 
 
 
-
-
-
-
-
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
 
 
