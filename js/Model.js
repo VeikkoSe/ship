@@ -12,10 +12,7 @@ var Model = function (name) {
     this.diffuse = null;
     this.specular = null;
 
-
-
     this.rotation = 0;
-
 
     this.vertexPositionBuffer = gl.createBuffer();
     this.texturePositionBuffer = gl.createBuffer();
@@ -67,9 +64,9 @@ Model.prototype.inputData = function (data) {
 
     this.normals = this.createNormals(this.vertices, this.indices);
 
-    this.ambient  = d.ambient;
-    this.diffuse  = d.diffuse;
-    this.specular  = d.specular;
+    this.ambient = d.ambient;
+    this.diffuse = d.diffuse;
+    this.specular = d.specular;
 
 
     //if(typeof d.normals !== 'undefined')
@@ -77,7 +74,6 @@ Model.prototype.inputData = function (data) {
 
 
 };
-
 
 
 Model.prototype.createNormals = function (vs, ind) {

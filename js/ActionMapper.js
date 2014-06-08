@@ -1,51 +1,40 @@
-var ActionMapper = function() {
-
-    this.currentlyPressedKeys = {};
+var ActionMapper = function () {
     this.shooting = null;
-
 }
 
 
-
-
-
-ActionMapper.prototype.handleKeyDown =  function(event) {
-    this.currentlyPressedKeys[event.keyCode] = true;
-
+ActionMapper.prototype.handleKeyDown = function (event) {
+    currentlyPressedKeys[event.keyCode] = true;
 }
-
 
 ActionMapper.prototype.handleKeyUp = function (event) {
-    this.currentlyPressedKeys[event.keyCode] = false;
+    currentlyPressedKeys[event.keyCode] = false;
 }
 
 
 ActionMapper.prototype.handleKeys = function () {
     this.shooting = 0;
 
-    if (this.currentlyPressedKeys[38]) {
-        alert('w');
-        // Up cursor key
-        this.shooting = 1;
+    //up
+    if (currentlyPressedKeys[38]) {
+        game.ship.addSpeed();
     }
-
-}
-
-ActionMapper.prototype.initGL = function (canvas) {
-    try {
-        //gl = canvas.getContext("webgl");
-        gl = WebGLDebugUtils.makeDebugContext(canvas.getContext("webgl"));
-        //gl = WebGLDebugUtils.makeDebugContext(gl, undefined, logGLCall);
-        gl.viewportWidth = canvas.width;
-        gl.viewportHeight = canvas.height;
-    } catch (e) {
-
+    //down
+    if (currentlyPressedKeys[40]) {
+        game.ship.removeSpeed();
     }
-    if (!gl) {
-        alert("Could not initialise WebGL, sorry :-(");
+    //left
+    if (currentlyPressedKeys[37]) {
+        game.ship.rotateShipLeft();
     }
-
-
+    //right
+    if (currentlyPressedKeys[39]) {
+        game.ship.rotateShipRight();
+    }
+    //spacebar
+    if (currentlyPressedKeys[32]) {
+        game.gun.shootBullet();
+    }
 }
 
 

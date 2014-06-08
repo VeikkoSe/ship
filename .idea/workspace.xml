@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3d25b09e-3006-4227-afed-6af564ab81f5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/images/bigbullet.png" afterPath="$PROJECT_DIR$/resources/images/bigbullet.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/ActionMapper.js" afterPath="$PROJECT_DIR$/js/ActionMapper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Bullet.js" afterPath="$PROJECT_DIR$/js/Bullet.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Game.js" afterPath="$PROJECT_DIR$/js/Game.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Model.js" afterPath="$PROJECT_DIR$/js/Model.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/Ship.js" afterPath="$PROJECT_DIR$/js/Ship.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -31,7 +34,7 @@
       <file leaf-file-name="Game.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="538" selection-end="614" vertical-scroll-proportion="-19.04" vertical-offset="0" max-vertical-offset="9639">
+            <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="9605">
               <folding />
             </state>
           </provider>
@@ -40,7 +43,7 @@
       <file leaf-file-name="Bullet.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Bullet.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="4" selection-start="619" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1445">
+            <state line="14" column="0" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
               <folding />
             </state>
           </provider>
@@ -49,7 +52,7 @@
       <file leaf-file-name="Ship.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Ship.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="269" selection-end="269" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="1054">
+            <state line="27" column="1" selection-start="467" selection-end="467" vertical-scroll-proportion="-18.36" vertical-offset="0" max-vertical-offset="1190">
               <folding />
             </state>
           </provider>
@@ -58,7 +61,7 @@
       <file leaf-file-name="ActionMapper.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/ActionMapper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="0" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+            <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="833">
               <folding />
             </state>
           </provider>
@@ -67,7 +70,19 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="62" selection-start="882" selection-end="882" vertical-scroll-proportion="0.40706956" vertical-offset="0" max-vertical-offset="4675">
+            <state line="243" column="13" selection-start="7827" selection-end="7827" vertical-scroll-proportion="0.20524515" vertical-offset="3951" max-vertical-offset="4828">
+              <folding>
+                <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Gun.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/Gun.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="22" selection-start="158" selection-end="158" vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="1360">
               <folding />
             </state>
           </provider>
@@ -76,7 +91,7 @@
       <file leaf-file-name="Model.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/Model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="0" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0" vertical-offset="2125" max-vertical-offset="3111">
+            <state line="13" column="0" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3043">
               <folding />
             </state>
           </provider>
@@ -104,12 +119,15 @@
         <option value="$PROJECT_DIR$/asteroid.html" />
         <option value="$PROJECT_DIR$/resources/models/background.js" />
         <option value="$PROJECT_DIR$/obj/objtojson.php" />
-        <option value="$PROJECT_DIR$/js/Model.js" />
         <option value="$PROJECT_DIR$/js/Keyboard.js" />
+        <option value="$PROJECT_DIR$/Bullets.js" />
+        <option value="$PROJECT_DIR$/js/Ammo.js" />
+        <option value="$PROJECT_DIR$/js/Gun.js" />
         <option value="$PROJECT_DIR$/js/ActionMapper.js" />
-        <option value="$PROJECT_DIR$/js/Bullet.js" />
         <option value="$PROJECT_DIR$/js/Game.js" />
+        <option value="$PROJECT_DIR$/js/Bullet.js" />
         <option value="$PROJECT_DIR$/js/Ship.js" />
+        <option value="$PROJECT_DIR$/js/Model.js" />
         <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
@@ -134,7 +152,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -145,11 +163,47 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ship" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ship" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ship" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ship" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ship" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/js/Actionmapper.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js" />
     <property name="LayoutCode.rearrangeEntriesHTML" value="false" />
     <property name="LayoutCode.rearrangeEntriesJavaScript" value="false" />
     <property name="FullScreen" value="false" />
@@ -201,6 +255,23 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="all">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="3d25b09e-3006-4227-afed-6af564ab81f5" name="Default" comment="" />
@@ -288,24 +359,13 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/js/Model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0" vertical-offset="952" max-vertical-offset="3111">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="56" selection-start="6154" selection-end="6154" vertical-scroll-proportion="0.0" vertical-offset="2601" max-vertical-offset="9979">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="236" column="36" selection-start="7920" selection-end="7920" vertical-scroll-proportion="0.0" vertical-offset="1632" max-vertical-offset="4437">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -326,7 +386,10 @@
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="236" column="36" selection-start="7920" selection-end="7920" vertical-scroll-proportion="0.0" vertical-offset="1632" max-vertical-offset="4437">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -396,7 +459,10 @@
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="176" column="22" selection-start="5544" selection-end="5544" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3366">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -427,7 +493,10 @@
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="184" column="72" selection-start="6263" selection-end="6336" vertical-scroll-proportion="0.0" vertical-offset="2398" max-vertical-offset="3298">
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -555,45 +624,55 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="913" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/Gun.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="22" selection-start="158" selection-end="158" vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="1360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/Model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="0" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0" vertical-offset="952" max-vertical-offset="3111">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ActionMapper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="406" selection-end="406" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Bullet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="4" selection-start="619" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1445">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/Ship.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="269" selection-end="269" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="1054">
+        <state line="13" column="0" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="3043">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/Game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="538" selection-end="614" vertical-scroll-proportion="-19.04" vertical-offset="0" max-vertical-offset="9639">
+        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="9605">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Bullet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="426" selection-end="426" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Ship.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="1" selection-start="467" selection-end="467" vertical-scroll-proportion="-18.36" vertical-offset="0" max-vertical-offset="1190">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ActionMapper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="32" selection-start="32" selection-end="32" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="903">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="62" selection-start="882" selection-end="882" vertical-scroll-proportion="0.40706956" vertical-offset="0" max-vertical-offset="4675">
-          <folding />
+        <state line="243" column="13" selection-start="7827" selection-end="7827" vertical-scroll-proportion="0.20524515" vertical-offset="3951" max-vertical-offset="4828">
+          <folding>
+            <element signature="n#style#0;n#canvas#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

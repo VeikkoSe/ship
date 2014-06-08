@@ -1,27 +1,44 @@
 var Ship = function () {
 
-    this.xPos;
-    this.yPos;
-    this.angle;
-    this.speed;
 
-
-    this.turnspeed;
-    this.lastFireTime;
-
+    this.lastTime = 0;
     this.xPos = 0;
     this.yPos = 0;
     this.angle = 90;
     this.turnspeed = 350;
-    this.speed = 250;
+    this.speed = 0.35;
     this.lastFireTime = 0;
+    this.shipModel = new Model('ship');
+    this.lastDirection = null;
 
 
 }
+Ship.prototype.rotateShipLeft = function () {
+
+    this.angle += 3;
+
+}
+
+Ship.prototype.rotateShipRight = function () {
+    this.angle -= 3;
+}
+
+Ship.prototype.addSpeed = function () {
+    this.speed += 0.5;
+}
+
+Ship.prototype.removeSpeed = function () {
+    this.speed -= 0.5;
+}
 
 
-Ship.prototype.turnShip = function () {
+Ship.prototype.moveShip = function () {
 
+    if (this.angle > 360)
+        this.angle = 0;
+
+    if (this.angle < 0)
+        this.angle = 360;
 
     var timeNow = new Date().getTime();
 
@@ -30,27 +47,18 @@ Ship.prototype.turnShip = function () {
         var elapsed = timeNow - this.lastTime;
 
 
-        if (xPos <= 80) {
-            xPos = 80;
-        }
-        else if (x >= 80) {
-            xPos = 0;
-        }
-        if (yPos <= 0) {
-            yPos = 80;
-        }
-        else if (yPos >= 80) {
-            yPos = 0;
-        }
-
-
-        posX = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.angle));
-        posY = this.bulletSpeed * ( elapsed / 1000.0 ) * Math.sin(this.degToRad(this.angle));
+        posX = this.speed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.angle));
+        posY = this.speed * ( elapsed / 1000.0 ) * Math.sin(this.degToRad(this.angle));
         this.xPos += posX;
         this.yPos += posY;
 
 
-        this.lastTime = timeNow;
     }
+    this.lastTime = timeNow;
+
 
 }
+Ship.prototype.degToRad = function (degrees) {
+    return degrees * Math.PI / 180;
+}
+
