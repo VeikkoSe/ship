@@ -72,3 +72,22 @@ Gun.prototype.moveAmmo = function () {
 Gun.prototype.degToRad = function (degrees) {
     return degrees * Math.PI / 180;
 }
+
+
+Gun.prototype.checkHit = function () {
+    {
+        for (var i = 0; i < this.bulletsAmount; i++) {
+            for (var j = 0; j < game.asteroids.length; j++) {
+
+                if (this.bullets[i].visible == 1 && game.asteroids[j].visible == 1 && this.bullets[i].xPos > game.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.asteroids[j].xPos + 4 &&
+                    this.bullets[i].yPos > game.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.asteroids[j].yPos + 4
+                    ) {
+                    game.asteroids[j].visible = 0;
+                    this.bullets[i].visible = 0;
+                }
+            }
+        }
+
+    }
+
+}

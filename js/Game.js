@@ -29,7 +29,7 @@ Game.prototype.animate = function () {
     if (this.lastTime != 0) {
         var elapsed = timeNow - this.lastTime;
         this.elapsedTotal += elapsed;
-
+        this.xRot += (90 * elapsed) / 2000.0;
 
 
         var posX = 0;
@@ -64,6 +64,8 @@ Game.prototype.animate = function () {
 
         this.ship.moveShip();
         this.gun.moveAmmo();
+        this.gun.checkHit();
+        this.ship.checkHit();
 
 
         if (this.elapsedTotal >= 1000) {
@@ -102,40 +104,43 @@ Game.prototype.degToRad = function (degrees) {
 
 Game.prototype.drawShip = function () {
     //draw ship
-    this.mvPushMatrix();
-    //
 
-    // mat4.translate(this.mvMatrix, [0, 0, 0]);
-    mat4.translate(this.mvMatrix, [this.ship.xPos, this.ship.yPos, 0]);
-    mat4.rotate(this.mvMatrix, this.degToRad(-90), [0, 1, 0]);
-    mat4.rotate(this.mvMatrix, this.degToRad(-90), [1, 0, 0]);
-    $('#debugarea').html(this.ship.angle);
-    mat4.rotate(this.mvMatrix, this.degToRad(this.ship.angle), [1, 0, 0]);
+    if (this.ship.visible == 1) {
 
-    gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
+        this.mvPushMatrix();
+        //
 
+        // mat4.translate(this.mvMatrix, [0, 0, 0]);
+        mat4.translate(this.mvMatrix, [this.ship.xPos, this.ship.yPos, 0]);
+        mat4.rotate(this.mvMatrix, this.degToRad(-90), [0, 1, 0]);
+        mat4.rotate(this.mvMatrix, this.degToRad(-90), [1, 0, 0]);
+        //$('#debugarea').html(this.ship.angle);
+        mat4.rotate(this.mvMatrix, this.degToRad(this.ship.angle), [1, 0, 0]);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.vertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.normalPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
+        gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
 
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.texturePositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, this.ship.shipModel.texture);
-    gl.uniform1i(shaderProgram.samplerUniform, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.vertexPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ship.shipModel.indexPositionBuffer);
 
-    this.setMatrixUniforms();
-    gl.drawElements(gl.TRIANGLES, this.ship.shipModel.indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-    // gl.disable(gl.BLEND);
-    this.mvPopMatrix();
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.normalPositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
 
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.ship.shipModel.texturePositionBuffer);
+        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.ship.shipModel.texture);
+        gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.ship.shipModel.indexPositionBuffer);
+
+        this.setMatrixUniforms();
+        gl.drawElements(gl.TRIANGLES, this.ship.shipModel.indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+        // gl.disable(gl.BLEND);
+        this.mvPopMatrix();
+    }
 }
 
 Game.prototype.drawBackground = function () {
@@ -311,36 +316,37 @@ Game.prototype.drawSun = function () {
 
 Game.prototype.drawAsteroids = function () {
     for (var i = 0; i < this.asteroids.length; i++) {
-
-        this.mvPushMatrix();
-        mat4.translate(this.mvMatrix, [this.asteroids[i].xPos, this.asteroids[i].yPos, 0]);
-        mat4.scale(this.mvMatrix, [4, 4, 4]);
-        mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
-
-
-        gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].vertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].texturePositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
-
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].normalPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
-
-        gl.activeTexture(gl.TEXTURE0);
-        //textures are in global variable and we just get it by index after ship and bullet
-        gl.bindTexture(gl.TEXTURE_2D, this.asteroids[i].texture);
-        gl.uniform1i(shaderProgram.samplerUniform, 0);
+        if (this.asteroids[i].visible == 1) {
+            this.mvPushMatrix();
+            mat4.translate(this.mvMatrix, [this.asteroids[i].xPos, this.asteroids[i].yPos, 0]);
+            mat4.scale(this.mvMatrix, [4, 4, 4]);
+            mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
 
 
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.asteroids[i].indexPositionBuffer);
+            gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
 
-        this.setMatrixUniforms();
-        gl.drawElements(gl.TRIANGLES, this.asteroids[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].vertexPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
-        this.mvPopMatrix();
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].texturePositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].normalPositionBuffer);
+            gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
+
+            gl.activeTexture(gl.TEXTURE0);
+            //textures are in global variable and we just get it by index after ship and bullet
+            gl.bindTexture(gl.TEXTURE_2D, this.asteroids[i].texture);
+            gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.asteroids[i].indexPositionBuffer);
+
+            this.setMatrixUniforms();
+            gl.drawElements(gl.TRIANGLES, this.asteroids[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+
+            this.mvPopMatrix();
+        }
     }
 
 }
@@ -454,7 +460,7 @@ Game.prototype.init = function (canvas) {
     var randomnumberY = 0;
     for (i = 0; i < 10; i++) {
         asteroid = new Model('asteroid');
-
+        asteroid.visible = 1;
         do {
 
             randomnumberX = this.randomIntFromInterval(-80, 80);

@@ -10,6 +10,7 @@ var Ship = function () {
     this.lastFireTime = 0;
     this.shipModel = new Model('ship');
     this.lastDirection = null;
+    this.visible = 1;
 
 
 }
@@ -42,9 +43,27 @@ Ship.prototype.moveShip = function () {
 
     var timeNow = new Date().getTime();
 
+    var screenWidth = 80; //worldcoordinates
+    var screenHeight = 60; //worldcoordinates
 
     if (this.lastTime != 0) {
         var elapsed = timeNow - this.lastTime;
+
+
+        if (this.xPos > screenWidth) {
+            this.xPos = -1 * screenWidth;
+        }
+
+        if (this.yPos > screenHeight) {
+            this.yPos = -1 * screenHeight;
+        }
+
+        if (this.xPos < -1 * screenWidth) {
+            this.xPos = screenWidth;
+        }
+        if (this.yPos < -1 * screenHeight) {
+            this.yPos = screenHeight;
+        }
 
 
         posX = this.speed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.angle));
@@ -62,3 +81,20 @@ Ship.prototype.degToRad = function (degrees) {
     return degrees * Math.PI / 180;
 }
 
+Ship.prototype.checkHit = function () {
+    {
+
+        for (var j = 0; j < game.asteroids.length; j++) {
+
+            if (game.asteroids[j].visible == 1 && this.xPos > game.asteroids[j].xPos - 4 && this.xPos < game.asteroids[j].xPos + 4 &&
+                this.yPos > game.asteroids[j].yPos - 4 && this.yPos < game.asteroids[j].yPos + 4
+                ) {
+
+                this.visible = 0;
+            }
+        }
+
+
+    }
+
+}
