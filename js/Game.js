@@ -31,11 +31,11 @@ Game.prototype.animate = function () {
         this.elapsedTotal += elapsed;
         this.xRot += (90 * elapsed) / 2000.0;
 
+        this.actionMapper.handleKeys(elapsed);
 
         var posX = 0;
         var posY = 0;
-        var screenWidth = 80; //worldcoordinates
-        var screenHeight = 60; //worldcoordinates
+
 
         for (var i = 0; i < this.asteroids.length; i++) {
             posX = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.asteroids[i].rotation));
@@ -91,10 +91,10 @@ Game.prototype.tick = function () {
         that.tick()
     });
 
-    this.actionMapper.handleKeys();
-    this.drawScene();
-    this.animate();
 
+
+    this.animate();
+    this.drawScene();
 }
 
 

@@ -16,6 +16,14 @@
     var shaderProgram;
     var currentlyPressedKeys = {};
     var game;
+    var screenWidth = 110; //worldcoordinates
+    var screenHeight = 65; //worldcoordinates
+
+function printDebug(msg)
+{
+
+    $('#debugarea').html(msg);
+}
 
 
 </script>
@@ -225,7 +233,7 @@
 <body onload="webGLStart();">
 
 
-<canvas id="canvas" style="border: none;" width="800" height="600"></canvas>
+<canvas id="canvas" style="border: none;" width="1280" height="720"></canvas>
 
 
 <div id="bottom">

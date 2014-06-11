@@ -12,28 +12,28 @@ ActionMapper.prototype.handleKeyUp = function (event) {
 }
 
 
-ActionMapper.prototype.handleKeys = function () {
-    this.shooting = 0;
+ActionMapper.prototype.handleKeys = function (elapsed) {
 
+    //game.ship.setAccelerationOff(elapsed);
     //up
     if (currentlyPressedKeys[38]) {
-        game.ship.addSpeed();
+        game.ship.setAccelerationOn(elapsed);
     }
     //down
     if (currentlyPressedKeys[40]) {
-        game.ship.removeSpeed();
+        //game.ship.removeSpeed();
     }
     //left
     if (currentlyPressedKeys[37]) {
-        game.ship.rotateShipLeft();
+        game.ship.rotateShipLeft(elapsed);
     }
     //right
     if (currentlyPressedKeys[39]) {
-        game.ship.rotateShipRight();
+        game.ship.rotateShipRight(elapsed);
     }
     //spacebar
     if (currentlyPressedKeys[32]) {
-        game.gun.shootBullet();
+        game.gun.shootBullet(elapsed);
     }
 }
 

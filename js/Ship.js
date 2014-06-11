@@ -2,49 +2,72 @@ var Ship = function () {
 
 
     this.lastTime = 0;
+    this.lt = 0;
     this.xPos = 0;
     this.yPos = 0;
     this.angle = 90;
-    this.turnspeed = 350;
-    this.speed = 0.35;
-    this.lastFireTime = 0;
+    this.lt = 0;
+    this.speed = 0;
+
     this.shipModel = new Model('ship');
-    this.lastDirection = null;
+
     this.visible = 1;
 
+    this.velocityX = 0;
+    this.velocityY = 0;
+
+    this.acceleration = 50;
+
+
+
 
 }
-Ship.prototype.rotateShipLeft = function () {
-
-    this.angle += 3;
-
-}
-
-Ship.prototype.rotateShipRight = function () {
-    this.angle -= 3;
-}
-
-Ship.prototype.addSpeed = function () {
-    this.speed += 0.5;
-}
-
-Ship.prototype.removeSpeed = function () {
-    this.speed -= 0.5;
-}
-
-
-Ship.prototype.moveShip = function () {
-
+Ship.prototype.rotateShipLeft = function (elapsed) {
     if (this.angle > 360)
         this.angle = 0;
 
     if (this.angle < 0)
         this.angle = 360;
 
+    this.angle += 3;
+
+}
+
+Ship.prototype.rotateShipRight = function (elapsed) {
+
+    if (this.angle > 360)
+        this.angle = 0;
+
+    if (this.angle < 0)
+        this.angle = 360;
+    this.angle -= 3;
+}
+
+Ship.prototype.setAccelerationOn = function (elapsed) {
+
+
+
+    dirVectorX= Math.cos(this.degToRad(this.angle));
+    dirVectorY= Math.sin(this.degToRad(this.angle));
+
+
+    this.velocityX += this.acceleration  * dirVectorX * ( elapsed / 1000.0 );
+    this.velocityY += this.acceleration  * dirVectorY * ( elapsed / 1000.0 );
+
+
+
+}
+
+
+
+
+
+Ship.prototype.moveShip = function () {
+
+
     var timeNow = new Date().getTime();
 
-    var screenWidth = 80; //worldcoordinates
-    var screenHeight = 60; //worldcoordinates
+
 
     if (this.lastTime != 0) {
         var elapsed = timeNow - this.lastTime;
@@ -66,14 +89,22 @@ Ship.prototype.moveShip = function () {
         }
 
 
-        posX = this.speed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.angle));
-        posY = this.speed * ( elapsed / 1000.0 ) * Math.sin(this.degToRad(this.angle));
-        this.xPos += posX;
-        this.yPos += posY;
+        //printDebug(this.velocityX);
 
+        //posX = this.velocityX * Math.cos(this.degToRad(this.powerAngle));
+        //posY = this.velocityX * Math.sin(this.degToRad(this.powerAngle));
+
+        //posX = this.speed * ( elapsed / 1000.0 );
+        //posY = this.speed * ( elapsed / 1000.0 );
+        this.xPos +=  this.velocityX * ( elapsed / 1000.0 );
+        this.yPos +=  this.velocityY * ( elapsed / 1000.0 );
+
+        //this.oldPosX = this.xPos;
+        //this.oldPosY = this.yPos;
 
     }
     this.lastTime = timeNow;
+
 
 
 }
@@ -90,7 +121,7 @@ Ship.prototype.checkHit = function () {
                 this.yPos > game.asteroids[j].yPos - 4 && this.yPos < game.asteroids[j].yPos + 4
                 ) {
 
-                this.visible = 0;
+                //this.visible = 0;
             }
         }
 

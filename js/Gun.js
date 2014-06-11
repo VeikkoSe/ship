@@ -1,7 +1,7 @@
 var Gun = function () {
 
     this.bulletsAmount = 80;
-    this.bulletReloadSpeed = 200;
+    this.bulletReloadSpeed = 10;
     this.bullets = [];
     this.bulletShot = 0;
     this.lastTime = 0;
@@ -60,6 +60,21 @@ Gun.prototype.moveAmmo = function () {
 
             this.bullets[i].xPos += posX;
             this.bullets[i].yPos += posY;
+
+            if (this.bullets[i].xPos > screenWidth) {
+                this.bullets[i].xPos = -1 * screenWidth;
+            }
+
+            if (this.bullets[i].yPos > screenHeight) {
+                this.bullets[i].yPos = -1 * screenHeight;
+            }
+
+            if (this.bullets[i].xPos < -1 * screenWidth) {
+                this.bullets[i].xPos = screenWidth;
+            }
+            if (this.bullets[i].yPos < -1 * screenHeight) {
+                this.bullets[i].yPos = screenHeight;
+            }
 
         }
 
