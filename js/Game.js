@@ -17,9 +17,14 @@ var Game = function (name) {
     this.elapsedTotal = 0;
     this.background = null;
     this.asteroidSpeed = 10;
-    this.bulletSpeed = 50;
-    this.actionMapper = null;
 
+    this.actionMapper = null;
+    this.pointEndPositionsBuffer;
+    this.pointLifetimeBuffer;
+    this.pointStartPositionsBuffer;
+    this.time = 0;
+    this.centerPos = 0;
+    this.color = 0;
 
 }
 
@@ -36,6 +41,12 @@ Game.prototype.animate = function () {
         var posX = 0;
         var posY = 0;
 
+        this.time += elapsed / 3000;
+
+
+
+
+        lastTime = timeNow;
 
         for (var i = 0; i < this.asteroids.length; i++) {
             posX = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.asteroids[i].rotation));
@@ -80,6 +91,14 @@ Game.prototype.animate = function () {
             //document.getElementById('fps').innerHTML = fps;
         }
     }
+
+
+    if (this.time >= 1.0) {
+        this.time = 0;
+        this.centerPos = [Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5];
+        this.color = [Math.random() / 2 + 0.5, Math.random() / 2 + 0.5, Math.random() / 2 + 0.5, 0.5];
+        this.startParticles();
+    }
     this.lastTime = timeNow;
 }
 
@@ -90,7 +109,6 @@ Game.prototype.tick = function () {
     requestAnimFrame(function () {
         that.tick()
     });
-
 
 
     this.animate();
@@ -355,6 +373,8 @@ Game.prototype.drawAsteroids = function () {
 Game.prototype.drawScene = function () {
 
 
+    gl.useProgram(shaderProgram);
+
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.uniform1i(shaderProgram.useLightingUniform, true);
@@ -397,6 +417,77 @@ Game.prototype.drawScene = function () {
 
     this.drawBullets();
 
+    gl.useProgram(particleProgram);
+    this.drawParticles();
+
+
+}
+
+Game.prototype.startParticles = function () {
+
+    var numParticles = 1000;
+
+    lifetimes = [];
+    startPositions = [];
+    endPositions = [];
+    for (var i = 0; i < numParticles; i++) {
+        lifetimes.push(Math.random());
+
+        startPositions.push((Math.random() * 0.25) - 0.125);
+        startPositions.push((Math.random() * 0.25) - 0.125);
+        startPositions.push((Math.random() * 0.25) - 0.125);
+
+        endPositions.push((Math.random() * 2) - 1);
+        endPositions.push((Math.random() * 2) - 1);
+        endPositions.push((Math.random() * 2) - 1);
+    }
+
+    this.pointLifetimeBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointLifetimeBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(lifetimes), gl.STATIC_DRAW);
+    this.pointLifetimeBuffer.itemSize = 1;
+    this.pointLifetimeBuffer.numItems = numParticles;
+
+    this.pointStartPositionsBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointStartPositionsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(startPositions), gl.STATIC_DRAW);
+    this.pointStartPositionsBuffer.itemSize = 3;
+    this.pointStartPositionsBuffer.numItems = numParticles;
+
+    this.pointEndPositionsBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointEndPositionsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(endPositions), gl.STATIC_DRAW);
+    this.pointEndPositionsBuffer.itemSize = 3;
+    this.pointEndPositionsBuffer.numItems = numParticles;
+
+}
+
+Game.prototype.drawParticles = function () {
+
+    this.mvPushMatrix();
+
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointLifetimeBuffer);
+    gl.vertexAttribPointer(particleProgram.pointLifetimeAttribute, this.pointLifetimeBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointStartPositionsBuffer);
+    gl.vertexAttribPointer(particleProgram.pointStartPositionAttribute, this.pointStartPositionsBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.pointEndPositionsBuffer);
+    gl.vertexAttribPointer(particleProgram.pointEndPositionAttribute, this.pointEndPositionsBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    //gl.enable(gl.BLEND);
+    //gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+    gl.uniform3f(particleProgram.centerPositionUniform, this.centerPos[0], this.centerPos[1], this.centerPos[2]);
+    gl.uniform4f(particleProgram.colorUniform, this.color[0], this.color[1], this.color[2], this.color[3]);
+    gl.uniform1f(particleProgram.timeUniform, this.time);
+
+    gl.drawArrays(gl.POINTS, 0, this.pointLifetimeBuffer.numItems);
+
+
+    this.mvPopMatrix();
+
 
 }
 
@@ -436,7 +527,13 @@ Game.prototype.randomIntFromInterval = function (min, max) {
 
 Game.prototype.init = function (canvas) {
     this.initGL(canvas);
-    initShaders();
+
+    this.startParticles();
+
+    shaderProgram = initShaders("per-fragment-lighting");
+    particleProgram = initParticleShaders("particle");
+
+
     gl.enable(gl.CULL_FACE);
 
 
@@ -486,57 +583,7 @@ Game.prototype.init = function (canvas) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
 
-    //alert(this.ship.texture.loaded);
-    //var something=this.ship.texture.loaded;
-    /*
-     var something_cachedValue = this.ship.loadedTexture;
-     var that = this;
-     function doStuff() {
-
-     if(that.ship.textureLoaded === something_cachedValue) {
-
-     setTimeout(doStuff, 50);//wait 50 millisecnds then recheck
-     return;
-     }
-
-
-
-     something_cachedValue=that.ship.loadedTexture;
-
-
-
-
-     }
-
-     doStuff();
-     */
-
-
     this.tick();
-    /*
-
-     for (i = 0; i < 20; i++)
-     this.bullets.push(new Model('bullets'));
-
-     var randomnumberRot = 0;
-     randomnumberRot = this.randomIntFromInterval(-360, 360);
-     for (var i = 0; i < this.bullets.length; i++) {
-     this.bullets[i].loadMesh();
-     this.bullets[i].buildBuffers();
-
-     randomnumberRot = this.randomIntFromInterval(-360, 360);
-     this.bullets[i].xPos = 70;
-     this.bullets[i].yPos = 70;
-     this.bullets[i].rotation = randomnumberRot;
-     initTexture(this.bullets[i].name);
-     }
-
-
-
-
-
-     }
-     */
 
 
 }

@@ -14,16 +14,15 @@
 
     var gl;
     var shaderProgram;
+    var particleProgram;
     var currentlyPressedKeys = {};
     var game;
     var screenWidth = 110; //worldcoordinates
     var screenHeight = 65; //worldcoordinates
 
-function printDebug(msg)
-{
-
-    $('#debugarea').html(msg);
-}
+    function printDebug(msg) {
+        $('#debugarea').html(msg);
+    }
 
 
 </script>
@@ -36,167 +35,148 @@ function printDebug(msg)
 <script type="text/javascript" src="js/Game.js"></script>
 <script type="text/javascript" src="js/ActionMapper.js"></script>
 
-<script id="per-fragment-lighting-fs" type="x-shader/x-fragment">
-    precision mediump float;
-
-    varying vec3 vTransformedNormal;
-    varying vec4 vPosition;
-    varying vec2 vTextureCoord;
-
-    uniform float uMaterialShininess;
-
-    uniform vec3 uLightAmbient;
-
-    uniform vec3 uLightPosition;
-    uniform vec3 uLightSpecular;
-    uniform vec3 uLightDiffuse;
-    uniform sampler2D uSampler;
-    uniform float uAlpha;
-    //blended element is drawn without lightning so it's always really bright
-    uniform bool uUseLighting;
-
-    void main(void) {
-        vec3 lightWeighting;
-
-            vec3 lightDirection = normalize(uLightPosition - vPosition.xyz);
-            vec3 normal = normalize(vTransformedNormal);
-
-            float specularLightWeighting = 0.0;
-
-                vec3 eyeDirection = normalize(-vPosition.xyz);
-                vec3 reflectionDirection = reflect(-lightDirection, normal);
-
-                specularLightWeighting = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess);
-
-            float diffuseLightWeighting = max(dot(normal, lightDirection), 0.0);
-            if(uUseLighting)
-              lightWeighting = uLightAmbient + uLightSpecular * specularLightWeighting + uLightDiffuse * diffuseLightWeighting;
-            else
-              lightWeighting = vec3(1.0, 1.0, 1.0);
-
-
-
-            //vec4 fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
-            vec4 fragmentColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-
-        gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a * uAlpha);
-    }
-
-
-
-</script>
-
-<script id="per-fragment-lighting-vs" type="x-shader/x-vertex">
-    attribute vec3 aVertexPosition;
-    attribute vec3 aVertexNormal;
-    attribute vec2 aTextureCoord;
-
-    uniform mat4 uMVMatrix;
-    uniform mat4 uPMatrix;
-    uniform mat3 uNMatrix;
-
-    varying vec3 vTransformedNormal;
-    varying vec4 vPosition;
-    varying vec2 vTextureCoord;
-
-    void main(void) {
-
-
-        vPosition = uMVMatrix * vec4(aVertexPosition, 1.0);
-        vTextureCoord = aTextureCoord;
-        gl_Position = uPMatrix * vPosition;
-
-        vTransformedNormal = uNMatrix * aVertexNormal;
-    }
-
-
-
-</script>
 
 <script type="text/javascript">
 
 
-    function initShaders() {
-        var fragmentShader = getShader(gl, "per-fragment-lighting-fs");
-        var vertexShader = getShader(gl, "per-fragment-lighting-vs");
 
-        shaderProgram = gl.createProgram();
-        gl.attachShader(shaderProgram, vertexShader);
-        gl.attachShader(shaderProgram, fragmentShader);
-        gl.linkProgram(shaderProgram);
+    function initParticleShaders(id) {
+
+
+        var program = gl.createProgram();
+
+        getShader(id,program);
+
+        gl.linkProgram(program);
+
 
         if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
             alert("Could not initialise shaders");
         }
 
-        gl.useProgram(shaderProgram);
+        //gl.useProgram(shaderProgram);
 
-        shaderProgram.aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-        gl.enableVertexAttribArray(shaderProgram.aVertexPosition);
+        program.pointLifetimeAttribute = gl.getAttribLocation(program, "aLifetime");
+        gl.enableVertexAttribArray(program.pointLifetimeAttribute);
 
-        shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, "aTextureCoord");
-        gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);
+        program.pointStartPositionAttribute = gl.getAttribLocation(program, "aStartPosition");
+        gl.enableVertexAttribArray(program.pointStartPositionAttribute);
 
-        shaderProgram.aVertexNormal = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-        gl.enableVertexAttribArray(shaderProgram.aVertexNormal);
+        program.pointEndPositionAttribute = gl.getAttribLocation(program, "aEndPosition");
+        gl.enableVertexAttribArray(shaderProgram.pointEndPositionAttribute);
+
+        program.samplerUniform = gl.getUniformLocation(program, "sTexture");
+        program.centerPositionUniform = gl.getUniformLocation(program, "uCenterPosition");
+        program.colorUniform = gl.getUniformLocation(program, "uColor");
+        program.timeUniform = gl.getUniformLocation(program, "uTime");
 
 
-        shaderProgram.uPMatrix = gl.getUniformLocation(shaderProgram, "uPMatrix");
-        shaderProgram.uMVMatrix = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-        shaderProgram.uNMatrix = gl.getUniformLocation(shaderProgram, "uNMatrix");
-        shaderProgram.samplerUniform = gl.getUniformLocation(shaderProgram, "uSampler");
+        return program;
 
-        shaderProgram.uMaterialShininess = gl.getUniformLocation(shaderProgram, "uMaterialShininess");
-        shaderProgram.uAmbient = gl.getUniformLocation(shaderProgram, "uAmbient");
+    }
+
+    function initShaders(id) {
+
+        var program = gl.createProgram();
+
+
+        getShader(id,program);
+
+
+
+
+        gl.linkProgram(program);
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            alert("Could not initialise shaders");
+        }
+
+        //gl.useProgram(program);
+
+        program.aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
+        gl.enableVertexAttribArray(program.aVertexPosition);
+
+        program.textureCoordAttribute = gl.getAttribLocation(program, "aTextureCoord");
+        gl.enableVertexAttribArray(program.textureCoordAttribute);
+
+        program.aVertexNormal = gl.getAttribLocation(program, "aVertexNormal");
+        gl.enableVertexAttribArray(program.aVertexNormal);
+
+
+        program.uPMatrix = gl.getUniformLocation(program, "uPMatrix");
+        program.uMVMatrix = gl.getUniformLocation(program, "uMVMatrix");
+        program.uNMatrix = gl.getUniformLocation(program, "uNMatrix");
+        program.samplerUniform = gl.getUniformLocation(program, "uSampler");
+
+        program.uMaterialShininess = gl.getUniformLocation(program, "uMaterialShininess");
+        program.uAmbient = gl.getUniformLocation(program, "uAmbient");
         //shaderProgram.uMaterialDiffuse = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse");
         //shaderProgram.uMaterialSpecular = gl.getUniformLocation(shaderProgram, "uMaterialSpecular");
 
 
-        shaderProgram.uLightPosition = gl.getUniformLocation(shaderProgram, "uLightPosition");
-        shaderProgram.uLightAmbient = gl.getUniformLocation(shaderProgram, "uLightAmbient");
-        shaderProgram.uLightDiffuse = gl.getUniformLocation(shaderProgram, "uLightDiffuse");
-        shaderProgram.uLightSpecular = gl.getUniformLocation(shaderProgram, "uLightSpecular");
+        program.uLightPosition = gl.getUniformLocation(program, "uLightPosition");
+        program.uLightAmbient = gl.getUniformLocation(program, "uLightAmbient");
+        program.uLightDiffuse = gl.getUniformLocation(program, "uLightDiffuse");
+        program.uLightSpecular = gl.getUniformLocation(program, "uLightSpecular");
 
 
-        shaderProgram.alphaUniform = gl.getUniformLocation(shaderProgram, "uAlpha");
-        shaderProgram.useLightingUniform = gl.getUniformLocation(shaderProgram, "uUseLighting");
-
+        program.alphaUniform = gl.getUniformLocation(program, "uAlpha");
+        program.useLightingUniform = gl.getUniformLocation(program, "uUseLighting");
+        return program;
 
     }
 
-    function getShader(gl, id) {
+    function getShader(id,program) {
 
-        var shaderScript = document.getElementById(id);
-        if (!shaderScript) {
+
+
+        var vs_source = null, fs_source = null;
+        $.ajax({
+            async: false,
+            url: './shaders/' + id + '-vs.shader',
+            success: function (data) {
+
+                vs_source = data;
+            },
+            dataType: 'html'
+        });
+
+        $.ajax({
+            async: false,
+            url: './shaders/' + id + '-fs.shader',
+            success: function (data) {
+
+                fs_source = data;
+            },
+            dataType: 'html'
+        });
+        var vsshader;
+        var fsshader;
+
+        fsshader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fsshader, fs_source);
+        gl.compileShader(fsshader);
+        if (!gl.getShaderParameter(fsshader, gl.COMPILE_STATUS)) {
+            alert(gl.getShaderInfoLog(fsshader));
             return null;
         }
 
-        var str = "";
-        var k = shaderScript.firstChild;
-        while (k) {
-            if (k.nodeType == 3) {
-                str += k.textContent;
-            }
-            k = k.nextSibling;
-        }
-
-        var shader;
-        if (shaderScript.type == "x-shader/x-fragment") {
-            shader = gl.createShader(gl.FRAGMENT_SHADER);
-        } else if (shaderScript.type == "x-shader/x-vertex") {
-            shader = gl.createShader(gl.VERTEX_SHADER);
-        } else {
+        vsshader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vsshader, vs_source);
+        gl.compileShader(vsshader);
+        if (!gl.getShaderParameter(vsshader, gl.COMPILE_STATUS)) {
+            alert(gl.getShaderInfoLog(vsshader));
             return null;
         }
 
-        gl.shaderSource(shader, str);
-        gl.compileShader(shader);
+        gl.attachShader(program, vsshader);
+        gl.attachShader(program, fsshader);
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert(gl.getShaderInfoLog(shader));
-            return null;
-        }
-        return shader;
+
+
+
+
+
     }
 
 
