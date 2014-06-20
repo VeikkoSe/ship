@@ -29,6 +29,8 @@
 
 <script type="text/javascript" src="js/Texture.js"></script>
 <script type="text/javascript" src="js/Model.js"></script>
+<script type="text/javascript" src="js/Asteroids.js"></script>
+<script type="text/javascript" src="js/Asteroid.js"></script>
 <script type="text/javascript" src="js/Bullet.js"></script>
 <script type="text/javascript" src="js/Gun.js"></script>
 <script type="text/javascript" src="js/Ship.js"></script>
@@ -50,7 +52,7 @@
         gl.linkProgram(program);
 
 
-        if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
             alert("Could not initialise shaders");
         }
 
@@ -63,7 +65,7 @@
         gl.enableVertexAttribArray(program.pointStartPositionAttribute);
 
         program.pointEndPositionAttribute = gl.getAttribLocation(program, "aEndPosition");
-        gl.enableVertexAttribArray(shaderProgram.pointEndPositionAttribute);
+        gl.enableVertexAttribArray(program.pointEndPositionAttribute);
 
         program.samplerUniform = gl.getUniformLocation(program, "sTexture");
         program.centerPositionUniform = gl.getUniformLocation(program, "uCenterPosition");
@@ -254,7 +256,7 @@
         var x = $('#slider-x').slider("value");
         var y = $('#slider-y').slider("value");
         var z = $('#slider-z').slider("value");
-        gl.uniform3f(shaderProgram.uLightPosition, x, y, z);
+        //gl.uniform3f(shaderProgram.uLightPosition, x, y, z);
         $('#slider-x-value').html(x);
         $('#slider-y-value').html(y);
         $('#slider-z-value').html(z);

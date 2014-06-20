@@ -62,16 +62,7 @@ Ship.prototype.setAccelerationOn = function (elapsed) {
 
 
 
-Ship.prototype.moveShip = function () {
-
-
-    var timeNow = new Date().getTime();
-
-
-
-    if (this.lastTime != 0) {
-        var elapsed = timeNow - this.lastTime;
-
+Ship.prototype.move = function (elapsed) {
 
         if (this.xPos > screenWidth) {
             this.xPos = -1 * screenWidth;
@@ -88,24 +79,8 @@ Ship.prototype.moveShip = function () {
             this.yPos = screenHeight;
         }
 
-
-        //printDebug(this.velocityX);
-
-        //posX = this.velocityX * Math.cos(this.degToRad(this.powerAngle));
-        //posY = this.velocityX * Math.sin(this.degToRad(this.powerAngle));
-
-        //posX = this.speed * ( elapsed / 1000.0 );
-        //posY = this.speed * ( elapsed / 1000.0 );
         this.xPos +=  this.velocityX * ( elapsed / 1000.0 );
         this.yPos +=  this.velocityY * ( elapsed / 1000.0 );
-
-        //this.oldPosX = this.xPos;
-        //this.oldPosY = this.yPos;
-
-    }
-    this.lastTime = timeNow;
-
-
 
 }
 Ship.prototype.degToRad = function (degrees) {

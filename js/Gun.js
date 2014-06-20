@@ -92,12 +92,13 @@ Gun.prototype.degToRad = function (degrees) {
 Gun.prototype.checkHit = function () {
     {
         for (var i = 0; i < this.bulletsAmount; i++) {
-            for (var j = 0; j < game.asteroids.length; j++) {
+            for (var j = 0; j < game.asteroids.amount; j++) {
 
-                if (this.bullets[i].visible == 1 && game.asteroids[j].visible == 1 && this.bullets[i].xPos > game.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.asteroids[j].xPos + 4 &&
-                    this.bullets[i].yPos > game.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.asteroids[j].yPos + 4
+                if (this.bullets[i].visible == 1 && game.asteroids.asteroids[j].visible == 1 && this.bullets[i].xPos > game.asteroids.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.asteroids.asteroids[j].xPos + 4 &&
+                    this.bullets[i].yPos > game.asteroids.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.asteroids.asteroids[j].yPos + 4
                     ) {
-                    game.asteroids[j].visible = 0;
+                    game.asteroids.asteroids[j].visible = 0;
+                    game.drawAsteroidExplosion(this.bullets[i].yPos,this.bullets[i].xPos);
                     this.bullets[i].visible = 0;
                 }
             }

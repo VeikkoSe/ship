@@ -1,7 +1,8 @@
 var Game = function (name) {
 
 
-    this.asteroids = [];
+    //this.asteroids = [];
+    this.asteroids = null;
     this.ship = null;
     this.sun = null;
     this.gun = null;
@@ -16,15 +17,15 @@ var Game = function (name) {
     this.frameCount = 0;
     this.elapsedTotal = 0;
     this.background = null;
-    this.asteroidSpeed = 10;
+
 
     this.actionMapper = null;
     this.pointEndPositionsBuffer;
     this.pointLifetimeBuffer;
     this.pointStartPositionsBuffer;
-    this.time = 0;
-    this.centerPos = 0;
-    this.color = 0;
+    //this.time = 0;
+    //this.centerPos = 0;
+    //this.color = 0;
 
 }
 
@@ -48,32 +49,10 @@ Game.prototype.animate = function () {
 
         lastTime = timeNow;
 
-        for (var i = 0; i < this.asteroids.length; i++) {
-            posX = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.asteroids[i].rotation));
-            posY = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.sin(this.degToRad(this.asteroids[i].rotation));
-            this.asteroids[i].xPos += posX;
-            this.asteroids[i].yPos += posY;
 
+        this.asteroids.move(elapsed);
+        this.ship.move(elapsed);
 
-            if (this.asteroids[i].xPos > screenWidth) {
-                this.asteroids[i].xPos = -1 * screenWidth;
-            }
-
-            if (this.asteroids[i].yPos > screenHeight) {
-                this.asteroids[i].yPos = -1 * screenHeight;
-            }
-
-            if (this.asteroids[i].xPos < -1 * screenWidth) {
-                this.asteroids[i].xPos = screenWidth;
-            }
-            if (this.asteroids[i].yPos < -1 * screenHeight) {
-                this.asteroids[i].yPos = screenHeight;
-            }
-
-
-        }
-
-        this.ship.moveShip();
         this.gun.moveAmmo();
         this.gun.checkHit();
         this.ship.checkHit();
@@ -333,35 +312,37 @@ Game.prototype.drawSun = function () {
 
 
 Game.prototype.drawAsteroids = function () {
-    for (var i = 0; i < this.asteroids.length; i++) {
-        if (this.asteroids[i].visible == 1) {
+
+    for (var i = 0; i < this.asteroids.amount; i++) {
+        if (this.asteroids.asteroids[i].visible == 1) {
+
             this.mvPushMatrix();
-            mat4.translate(this.mvMatrix, [this.asteroids[i].xPos, this.asteroids[i].yPos, 0]);
+            mat4.translate(this.mvMatrix, [this.asteroids.asteroids[i].xPos, this.asteroids.asteroids[i].yPos, 0]);
             mat4.scale(this.mvMatrix, [4, 4, 4]);
             mat4.rotate(this.mvMatrix, this.degToRad(this.xRot), [1, 1, 1]);
 
 
             gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].vertexPositionBuffer);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids.asteroids[i].model.vertexPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].texturePositionBuffer);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids.asteroids[i].model.texturePositionBuffer);
             gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, 2, gl.FLOAT, false, 0, 0);
 
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids[i].normalPositionBuffer);
+            gl.bindBuffer(gl.ARRAY_BUFFER, this.asteroids.asteroids[i].model.normalPositionBuffer);
             gl.vertexAttribPointer(shaderProgram.aVertexNormal, 3, gl.FLOAT, false, 0, 0);
 
             gl.activeTexture(gl.TEXTURE0);
             //textures are in global variable and we just get it by index after ship and bullet
-            gl.bindTexture(gl.TEXTURE_2D, this.asteroids[i].texture);
+            gl.bindTexture(gl.TEXTURE_2D, this.asteroids.asteroids[i].model.texture);
             gl.uniform1i(shaderProgram.samplerUniform, 0);
 
 
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.asteroids[i].indexPositionBuffer);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.asteroids.asteroids[i].model.indexPositionBuffer);
 
             this.setMatrixUniforms();
-            gl.drawElements(gl.TRIANGLES, this.asteroids[i].indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+            gl.drawElements(gl.TRIANGLES, this.asteroids.asteroids[i].model.indexPositionBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 
             this.mvPopMatrix();
         }
@@ -406,7 +387,7 @@ Game.prototype.drawScene = function () {
 
     //gl.uniform1i(shaderProgram.useLightingUniform, true);
 
-
+    gl.useProgram(shaderProgram);
     mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
 
     this.drawBackground();
@@ -418,7 +399,8 @@ Game.prototype.drawScene = function () {
     this.drawBullets();
 
     gl.useProgram(particleProgram);
-    this.drawParticles();
+
+    this.drawAsteroidExplosion();
 
 
 }
@@ -462,7 +444,7 @@ Game.prototype.startParticles = function () {
 
 }
 
-Game.prototype.drawParticles = function () {
+Game.prototype.drawAsteroidExplosion = function () {
 
     this.mvPushMatrix();
 
@@ -479,8 +461,8 @@ Game.prototype.drawParticles = function () {
     //gl.enable(gl.BLEND);
     //gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
 
-    gl.uniform3f(particleProgram.centerPositionUniform, this.centerPos[0], this.centerPos[1], this.centerPos[2]);
-    gl.uniform4f(particleProgram.colorUniform, this.color[0], this.color[1], this.color[2], this.color[3]);
+    gl.uniform3f(particleProgram.centerPositionUniform, 0, 0, 0);
+    //gl.uniform4f(particleProgram.colorUniform, this.color[0], this.color[1], this.color[2], this.color[3]);
     gl.uniform1f(particleProgram.timeUniform, this.time);
 
     gl.drawArrays(gl.POINTS, 0, this.pointLifetimeBuffer.numItems);
@@ -520,9 +502,6 @@ Game.prototype.mvPopMatrix = function () {
 }
 
 
-Game.prototype.randomIntFromInterval = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 
 Game.prototype.init = function (canvas) {
@@ -530,9 +509,9 @@ Game.prototype.init = function (canvas) {
 
     this.startParticles();
 
-    shaderProgram = initShaders("per-fragment-lighting");
-    particleProgram = initParticleShaders("particle");
 
+    particleProgram = initParticleShaders("particle");
+    shaderProgram = initShaders("per-fragment-lighting");
 
     gl.enable(gl.CULL_FACE);
 
@@ -544,6 +523,7 @@ Game.prototype.init = function (canvas) {
 
     this.ship = new Ship();
     this.gun = new Gun();
+    this.asteroids = new Asteroids(10);
 
     this.background = new Model('background');
 
@@ -551,33 +531,7 @@ Game.prototype.init = function (canvas) {
     this.sun = new Model('asteroid');
 
 
-    var asteroid;
-    var randomnumberRot = 0;
-    var randomnumberX = 0;
-    var randomnumberY = 0;
-    for (i = 0; i < 10; i++) {
-        asteroid = new Model('asteroid');
-        asteroid.visible = 1;
-        do {
 
-            randomnumberX = this.randomIntFromInterval(-80, 80);
-        }
-        while (randomnumberY > 30 && randomnumberY < -30);
-
-        do {
-            randomnumberY = this.randomIntFromInterval(-80, 80);
-        }
-        while (randomnumberY > 30 && randomnumberY < -30)
-
-        //randomnumberY=Math.floor(Math.random()*91)-45;
-        randomnumberRot = this.randomIntFromInterval(-360, 360);
-        asteroid.xPos = randomnumberX;
-        asteroid.yPos = randomnumberY;
-        asteroid.rotation = randomnumberRot;
-
-
-        this.asteroids.push(asteroid);
-    }
 
 
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
