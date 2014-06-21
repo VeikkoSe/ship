@@ -19,8 +19,6 @@ var Ship = function () {
     this.acceleration = 50;
 
 
-
-
 }
 Ship.prototype.rotateShipLeft = function (elapsed) {
     if (this.angle > 360)
@@ -46,41 +44,36 @@ Ship.prototype.rotateShipRight = function (elapsed) {
 Ship.prototype.setAccelerationOn = function (elapsed) {
 
 
+    dirVectorX = Math.cos(this.degToRad(this.angle));
+    dirVectorY = Math.sin(this.degToRad(this.angle));
 
-    dirVectorX= Math.cos(this.degToRad(this.angle));
-    dirVectorY= Math.sin(this.degToRad(this.angle));
 
-
-    this.velocityX += this.acceleration  * dirVectorX * ( elapsed / 1000.0 );
-    this.velocityY += this.acceleration  * dirVectorY * ( elapsed / 1000.0 );
-
+    this.velocityX += this.acceleration * dirVectorX * ( elapsed / 1000.0 );
+    this.velocityY += this.acceleration * dirVectorY * ( elapsed / 1000.0 );
 
 
 }
 
 
-
-
-
 Ship.prototype.move = function (elapsed) {
 
-        if (this.xPos > screenWidth) {
-            this.xPos = -1 * screenWidth;
-        }
+    if (this.xPos > screenWidth) {
+        this.xPos = -1 * screenWidth;
+    }
 
-        if (this.yPos > screenHeight) {
-            this.yPos = -1 * screenHeight;
-        }
+    if (this.yPos > screenHeight) {
+        this.yPos = -1 * screenHeight;
+    }
 
-        if (this.xPos < -1 * screenWidth) {
-            this.xPos = screenWidth;
-        }
-        if (this.yPos < -1 * screenHeight) {
-            this.yPos = screenHeight;
-        }
+    if (this.xPos < -1 * screenWidth) {
+        this.xPos = screenWidth;
+    }
+    if (this.yPos < -1 * screenHeight) {
+        this.yPos = screenHeight;
+    }
 
-        this.xPos +=  this.velocityX * ( elapsed / 1000.0 );
-        this.yPos +=  this.velocityY * ( elapsed / 1000.0 );
+    this.xPos += this.velocityX * ( elapsed / 1000.0 );
+    this.yPos += this.velocityY * ( elapsed / 1000.0 );
 
 }
 Ship.prototype.degToRad = function (degrees) {

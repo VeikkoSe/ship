@@ -9,7 +9,7 @@ var Asteroids = function (amount) {
     var randomnumberX = 0;
     var randomnumberY = 0;
     for (i = 0; i < amount; i++) {
-        asteroid  = new Asteroid();
+        asteroid = new Asteroid();
         asteroid.model = model;
         asteroid.visible = 1;
         do {
@@ -33,11 +33,10 @@ var Asteroids = function (amount) {
     }
 
 
-
 }
 
 
-Asteroids.prototype.move = function(elapsed) {
+Asteroids.prototype.move = function (elapsed) {
 
     for (var i = 0; i < this.asteroids.length; i++) {
         posX = this.asteroidSpeed * ( elapsed / 1000.0 ) * Math.cos(this.degToRad(this.asteroids[i].rotation));

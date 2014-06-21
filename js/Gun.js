@@ -98,8 +98,12 @@ Gun.prototype.checkHit = function () {
                     this.bullets[i].yPos > game.asteroids.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.asteroids.asteroids[j].yPos + 4
                     ) {
                     game.asteroids.asteroids[j].visible = 0;
-                    game.drawAsteroidExplosion(this.bullets[i].yPos,this.bullets[i].xPos);
                     this.bullets[i].visible = 0;
+
+                    game.particles.newAsteroidExplosion(this.bullets[i].yPos,this.bullets[i].xPos);
+                    //game.particles.visible = 1;
+                    //game.particles.time = 0;
+
                 }
             }
         }
