@@ -100,7 +100,7 @@ Gun.prototype.checkHit = function () {
                     game.asteroids.asteroids[j].visible = 0;
                     this.bullets[i].visible = 0;
 
-                    game.particles.newAsteroidExplosion(this.bullets[i].yPos,this.bullets[i].xPos);
+                    game.particles.newAsteroidExplosion(this.bullets[i].yPos, this.bullets[i].xPos);
                     //game.particles.visible = 1;
                     //game.particles.time = 0;
 

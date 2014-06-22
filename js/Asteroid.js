@@ -4,7 +4,5 @@ var Asteroid = function () {
     this.xPos = 0;
     this.yPos = 0;
     this.rotation = 0;
-
-
 }
 

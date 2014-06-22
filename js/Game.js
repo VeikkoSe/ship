@@ -1,36 +1,27 @@
 var Game = function (name) {
 
-
-    //this.asteroids = [];
     this.asteroids = null;
     this.ship = null;
     this.sun = null;
     this.gun = null;
     this.particles = null;
-
-    this.xRot = 0;
-
-
+    this.background = null;
+    this.actionMapper = null;
     this.lastTime = 0;
     this.mvMatrixStack = [];
     this.mvMatrix = mat4.create();
     this.pMatrix = mat4.create();
     this.frameCount = 0;
-    this.elapsedTotal = 0;
-    this.background = null;
-
-
-    this.actionMapper = null;
+    this.xRot = 0;
 
 
 }
-Game.prototype.simpleWorldToViewX = function(x)
-{
+
+Game.prototype.simpleWorldToViewX = function (x) {
     return  x / screenWidth;
 }
 
-Game.prototype.simpleWorldToViewY = function(y)
-{
+Game.prototype.simpleWorldToViewY = function (y) {
     return  y / screenHeight;
 }
 
@@ -58,32 +49,12 @@ Game.prototype.animate = function () {
         this.gun.checkHit();
         this.ship.checkHit();
 
-
-        if (this.elapsedTotal >= 1000) {
-            var fps = this.frameCount;
-            this.frameCount = 0;
-            this.elapsedTotal -= 1000;
-
-            //if (fps < 59)
-            // document.getElementById('fps').style.color = 'red';
-            //else
-            // document.getElementById('fps').style.color = 'green';
-            //document.getElementById('fps').innerHTML = fps;
-        }
         lastTime = timeNow;
     }
 
-    /*
-     if (this.time >= 1.0) {
-     this.time = 0;
-     //this.centerPos = [0,0,0];
-     //this.color = [Math.random() / 2 + 0.5, Math.random() / 2 + 0.5, Math.random() / 2 + 0.5, 0.5];
-     this.startParticles();
-     }  */
     this.lastTime = timeNow;
 
 }
-
 
 Game.prototype.tick = function () {
 
@@ -97,7 +68,6 @@ Game.prototype.tick = function () {
     this.drawScene();
 }
 
-
 Game.prototype.degToRad = function (degrees) {
     return degrees * Math.PI / 180;
 }
@@ -108,9 +78,7 @@ Game.prototype.drawShip = function () {
     if (this.ship.visible == 1) {
 
         this.mvPushMatrix();
-        //
 
-        // mat4.translate(this.mvMatrix, [0, 0, 0]);
         mat4.translate(this.mvMatrix, [this.ship.xPos, this.ship.yPos, 0]);
         mat4.rotate(this.mvMatrix, this.degToRad(-90), [0, 1, 0]);
         mat4.rotate(this.mvMatrix, this.degToRad(-90), [1, 0, 0]);
@@ -179,7 +147,6 @@ Game.prototype.drawBackground = function () {
 
 }
 
-
 Game.prototype.drawBullets = function () {
     //draw bullets
 
@@ -230,9 +197,7 @@ Game.prototype.drawBullets = function () {
     gl.enable(gl.DEPTH_TEST);
     gl.uniform1i(shaderProgram.useLightingUniform, true);
 
-
 }
-
 
 Game.prototype.drawSun2 = function () {
 
@@ -270,7 +235,6 @@ Game.prototype.drawSun2 = function () {
 
 
 }
-
 
 Game.prototype.drawSun = function () {
 
@@ -310,9 +274,7 @@ Game.prototype.drawSun = function () {
 
     this.mvPopMatrix();
 
-
 }
-
 
 Game.prototype.drawAsteroids = function () {
 
@@ -353,9 +315,7 @@ Game.prototype.drawAsteroids = function () {
 
 }
 
-
 Game.prototype.drawScene = function () {
-
 
     gl.useProgram(shaderProgram);
 
@@ -405,9 +365,7 @@ Game.prototype.drawScene = function () {
 
     this.drawAsteroidExplosion();
 
-
 }
-
 
 Game.prototype.drawAsteroidExplosion = function () {
 
@@ -435,10 +393,7 @@ Game.prototype.drawAsteroidExplosion = function () {
     }
 
     this.mvPopMatrix();
-
-
 }
-
 
 Game.prototype.setMatrixUniforms = function () {
     gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, this.pMatrix);
@@ -448,10 +403,7 @@ Game.prototype.setMatrixUniforms = function () {
     mat4.toInverseMat3(this.mvMatrix, normalMatrix);
     mat3.transpose(normalMatrix);
     gl.uniformMatrix3fv(shaderProgram.uNMatrix, false, normalMatrix);
-
-
 }
-
 
 Game.prototype.mvPushMatrix = function () {
     var copy = mat4.create();
@@ -464,9 +416,7 @@ Game.prototype.mvPopMatrix = function () {
         throw "Invalid popMatrix!";
     }
     this.mvMatrix = this.mvMatrixStack.pop();
-
 }
-
 
 Game.prototype.init = function (canvas) {
     this.initGL(canvas);
@@ -490,15 +440,11 @@ Game.prototype.init = function (canvas) {
     this.sun = new Model('asteroid');
     this.particles = new Particles('asteroid');
 
-
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
 
     this.tick();
 
-
 }
-
 
 Game.prototype.initGL = function (canvas) {
     try {
@@ -513,11 +459,4 @@ Game.prototype.initGL = function (canvas) {
     if (!gl) {
         alert("Could not initialise WebGL, sorry :-(");
     }
-
-
 }
-
-
-
-
-

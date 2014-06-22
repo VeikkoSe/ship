@@ -36,8 +36,3 @@ ActionMapper.prototype.handleKeys = function (elapsed) {
         game.gun.shootBullet(elapsed);
     }
 }
-
-
-
-
-

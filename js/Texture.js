@@ -32,4 +32,3 @@ Texture.prototype.initTexture = function (name) {
     this.loadedTexture.image.src = 'resources/images/' + name + '.png';
 
 }
-

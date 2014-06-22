@@ -3,7 +3,7 @@ var Particles = function (name) {
 
 }
 
-Particles.prototype.newAsteroidExplosion = function (y,x) {
+Particles.prototype.newAsteroidExplosion = function (y, x) {
     var particle = new Particle();
 
     particle.xPos = x;

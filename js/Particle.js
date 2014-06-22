@@ -2,19 +2,15 @@ var Particle = function () {
 
     this.pointEndPositionsBuffer = gl.createBuffer();
     this.pointLifetimeBuffer = gl.createBuffer();
-    this.pointStartPositionsBuffer =  gl.createBuffer();
+    this.pointStartPositionsBuffer = gl.createBuffer();
     this.time = 0;
-    //this.centerPos = 0;
     this.numParticles = 50;
-
     this.xPos = 0;
     this.yPos = 0;
 
     this.buildBuffers();
 
 }
-
-
 
 
 Particle.prototype.buildBuffers = function () {
