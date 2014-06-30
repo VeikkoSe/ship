@@ -1,4 +1,8 @@
-var Game = function (name) {
+//GameState.prototype = new StateEngine();
+//GameState.prototype.constructor=GameState;
+var GameState  = {};
+
+GameState.init =  function () {
 
     this.asteroids = null;
     this.ship = null;
@@ -15,17 +19,23 @@ var Game = function (name) {
     this.xRot = 0;
 
 
+
 }
 
-Game.prototype.simpleWorldToViewX = function (x) {
+GameState.getInstance = function () {
+    alert('w');
+    return GameState._instance || new GameState();
+}
+
+GameState.simpleWorldToViewX = function (x) {
     return  x / screenWidth;
 }
 
-Game.prototype.simpleWorldToViewY = function (y) {
+GameState.simpleWorldToViewY = function (y) {
     return  y / screenHeight;
 }
 
-Game.prototype.animate = function () {
+GameState.animate = function () {
     var timeNow = new Date().getTime();
     this.frameCount++;
     if (this.lastTime != 0) {
@@ -56,7 +66,7 @@ Game.prototype.animate = function () {
 
 }
 
-Game.prototype.tick = function () {
+GameState.tick = function () {
 
     var that = this;
     requestAnimFrame(function () {
@@ -68,11 +78,11 @@ Game.prototype.tick = function () {
     this.drawScene();
 }
 
-Game.prototype.degToRad = function (degrees) {
+GameState.degToRad = function (degrees) {
     return degrees * Math.PI / 180;
 }
 
-Game.prototype.drawShip = function () {
+GameState.drawShip = function () {
     //draw ship
 
     if (this.ship.visible == 1) {
@@ -111,7 +121,7 @@ Game.prototype.drawShip = function () {
     }
 }
 
-Game.prototype.drawBackground = function () {
+GameState.drawBackground = function () {
     //draw background
     this.mvPushMatrix();
 
@@ -147,7 +157,7 @@ Game.prototype.drawBackground = function () {
 
 }
 
-Game.prototype.drawBullets = function () {
+GameState.drawBullets = function () {
     //draw bullets
 
     gl.uniform1i(shaderProgram.useLightingUniform, false);
@@ -199,7 +209,7 @@ Game.prototype.drawBullets = function () {
 
 }
 
-Game.prototype.drawSun2 = function () {
+GameState.drawSun2 = function () {
 
 
     this.mvPushMatrix();
@@ -236,7 +246,7 @@ Game.prototype.drawSun2 = function () {
 
 }
 
-Game.prototype.drawSun = function () {
+GameState.drawSun = function () {
 
 
     this.mvPushMatrix();
@@ -276,7 +286,7 @@ Game.prototype.drawSun = function () {
 
 }
 
-Game.prototype.drawAsteroids = function () {
+GameState.drawAsteroids = function () {
 
     for (var i = 0; i < this.asteroids.amount; i++) {
         if (this.asteroids.asteroids[i].visible == 1) {
@@ -315,7 +325,7 @@ Game.prototype.drawAsteroids = function () {
 
 }
 
-Game.prototype.drawScene = function () {
+GameState.drawScene = function () {
 
     gl.useProgram(shaderProgram);
 
@@ -367,7 +377,7 @@ Game.prototype.drawScene = function () {
 
 }
 
-Game.prototype.drawAsteroidExplosion = function () {
+GameState.drawAsteroidExplosion = function () {
 
     this.mvPushMatrix();
     for (var i = 0; i < this.particles.asteroidExplosion.length; i++) {
@@ -395,7 +405,7 @@ Game.prototype.drawAsteroidExplosion = function () {
     this.mvPopMatrix();
 }
 
-Game.prototype.setMatrixUniforms = function () {
+GameState.setMatrixUniforms = function () {
     gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, this.pMatrix);
     gl.uniformMatrix4fv(shaderProgram.uMVMatrix, false, this.mvMatrix);
 
@@ -405,20 +415,21 @@ Game.prototype.setMatrixUniforms = function () {
     gl.uniformMatrix3fv(shaderProgram.uNMatrix, false, normalMatrix);
 }
 
-Game.prototype.mvPushMatrix = function () {
+GameState.mvPushMatrix = function () {
     var copy = mat4.create();
     mat4.set(this.mvMatrix, copy);
     this.mvMatrixStack.push(copy);
 };
 
-Game.prototype.mvPopMatrix = function () {
+GameState.mvPopMatrix = function () {
     if (this.mvMatrixStack.length == 0) {
         throw "Invalid popMatrix!";
     }
     this.mvMatrix = this.mvMatrixStack.pop();
 }
 
-Game.prototype.init = function (canvas) {
+GameState.init = function (canvas) {
+
     this.initGL(canvas);
 
 
@@ -446,11 +457,13 @@ Game.prototype.init = function (canvas) {
 
 }
 
-Game.prototype.initGL = function (canvas) {
+GameState.initGL = function (canvas) {
     try {
         //gl = canvas.getContext("webgl");
+
         gl = WebGLDebugUtils.makeDebugContext(canvas.getContext("webgl"));
         //gl = WebGLDebugUtils.makeDebugContext(gl, undefined, logGLCall);
+        alert(gl);
         gl.viewportWidth = canvas.width;
         gl.viewportHeight = canvas.height;
     } catch (e) {
@@ -460,3 +473,6 @@ Game.prototype.initGL = function (canvas) {
         alert("Could not initialise WebGL, sorry :-(");
     }
 }
+
+
+
