@@ -1,7 +1,5 @@
-class Asteroid
-{
-    constructor()
-    {
+class Asteroid {
+    constructor() {
         this.model = null;
         this.visible = 0;
         this.xPos = 0;

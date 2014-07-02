@@ -60,8 +60,8 @@ var Ship = function Ship() {
   },
   checkHit: function() {
     "use strict";
-    for (var j = 0; j < game.asteroids.length; j++) {
-      if (game.asteroids[$traceurRuntime.toProperty(j)].visible == 1 && this.xPos > game.asteroids[$traceurRuntime.toProperty(j)].xPos - 4 && this.xPos < game.asteroids[$traceurRuntime.toProperty(j)].xPos + 4 && this.yPos > game.asteroids[$traceurRuntime.toProperty(j)].yPos - 4 && this.yPos < game.asteroids[$traceurRuntime.toProperty(j)].yPos + 4) {}
+    for (var j = 0; j < game.stateEngine.gameState.asteroids.length; j++) {
+      if (game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].visible == 1 && this.xPos > game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].xPos - 4 && this.xPos < game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].xPos + 4 && this.yPos > game.asteroids[$traceurRuntime.toProperty(j)].yPos - 4 && this.yPos < game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].yPos + 4) {}
     }
   }
 }, {});

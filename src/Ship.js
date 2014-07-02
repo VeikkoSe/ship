@@ -86,10 +86,10 @@ class Ship {
     checkHit() {
 
 
-        for (var j = 0; j < game.asteroids.length; j++) {
+        for (var j = 0; j < game.stateEngine.gameState.asteroids.length; j++) {
 
-            if (game.asteroids[j].visible == 1 && this.xPos > game.asteroids[j].xPos - 4 && this.xPos < game.asteroids[j].xPos + 4 &&
-                this.yPos > game.asteroids[j].yPos - 4 && this.yPos < game.asteroids[j].yPos + 4
+            if (game.stateEngine.gameState.asteroids[j].visible == 1 && this.xPos > game.stateEngine.gameState.asteroids[j].xPos - 4 && this.xPos < game.stateEngine.gameState.asteroids[j].xPos + 4 &&
+                this.yPos > game.asteroids[j].yPos - 4 && this.yPos < game.stateEngine.gameState.asteroids[j].yPos + 4
                 ) {
 
                 //this.visible = 0;

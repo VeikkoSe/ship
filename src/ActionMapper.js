@@ -19,7 +19,7 @@ class ActionMapper {
         //game.ship.setAccelerationOff(elapsed);
         //up
         if (currentlyPressedKeys[38]) {
-            game.ship.setAccelerationOn(elapsed);
+            game.stateEngine.gameState.ship.setAccelerationOn(elapsed);
         }
         //down
         if (currentlyPressedKeys[40]) {
@@ -27,15 +27,15 @@ class ActionMapper {
         }
         //left
         if (currentlyPressedKeys[37]) {
-            game.ship.rotateShipLeft(elapsed);
+            game.stateEngine.gameState.ship.rotateShipLeft(elapsed);
         }
         //right
         if (currentlyPressedKeys[39]) {
-            game.ship.rotateShipRight(elapsed);
+            game.stateEngine.gameState.ship.rotateShipRight(elapsed);
         }
         //spacebar
         if (currentlyPressedKeys[32]) {
-            game.gun.shootBullet(elapsed);
+            game.stateEngine.gameState.gun.shootBullet(elapsed);
         }
     }
 

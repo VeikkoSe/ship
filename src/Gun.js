@@ -14,6 +14,7 @@ class Gun {
         }
 
     }
+
     shootBullet() {
         var timeNow = new Date().getTime();
 
@@ -26,14 +27,15 @@ class Gun {
                     this.bulletShot = timeNow;
                     this.bullets[i].visible = 1;
                     this.bullets[i].birthTime = timeNow;
-                    this.bullets[i].angle = game.ship.angle;
-                    this.bullets[i].xPos = game.ship.xPos;
-                    this.bullets[i].yPos = game.ship.yPos;
+                    this.bullets[i].angle = game.stateEngine.gameState.ship.angle;
+                    this.bullets[i].xPos = game.stateEngine.gameState.ship.xPos;
+                    this.bullets[i].yPos = game.stateEngine.gameState.ship.yPos;
                     break;
                 }
             }
         }
     }
+
     moveAmmo() {
 
         var timeNow = new Date().getTime();
@@ -74,26 +76,37 @@ class Gun {
 
         this.lastTime = timeNow;
     }
+
     degToRad(degrees) {
         return degrees * Math.PI / 180;
     }
+
     checkHit() {
 
         for (var i = 0; i < this.bulletsAmount; i++) {
-            for (var j = 0; j < game.asteroids.amount; j++) {
+            for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
 
-                if (this.bullets[i].visible == 1 && game.asteroids.asteroids[j].visible == 1 && this.bullets[i].xPos > game.asteroids.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.asteroids.asteroids[j].xPos + 4 &&
-                    this.bullets[i].yPos > game.asteroids.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.asteroids.asteroids[j].yPos + 4
+                if (this.bullets[i].visible == 1 && game.stateEngine.gameState.asteroids.asteroids[j].visible == 1 && this.bullets[i].xPos > game.stateEngine.gameState.asteroids.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.stateEngine.gameState.asteroids.asteroids[j].xPos + 4 &&
+                    this.bullets[i].yPos > game.stateEngine.gameState.asteroids.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.stateEngine.gameState.asteroids.asteroids[j].yPos + 4
                     ) {
-                    game.asteroids.asteroids[j].visible = 0;
+                    game.stateEngine.gameState.asteroids.asteroids[j].visible = 0;
                     this.bullets[i].visible = 0;
 
-                    game.particles.newAsteroidExplosion(this.bullets[i].yPos, this.bullets[i].xPos);
+                    game.stateEngine.gameState.particles.newAsteroidExplosion(this.bullets[i].yPos, this.bullets[i].xPos);
                     //game.particles.visible = 1;
                     //game.particles.time = 0;
 
                 }
             }
+        }
+        var theEnd = true;
+        for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
+            if (game.stateEngine.gameState.asteroids.asteroids[j].visible == 1)
+                theEnd = false;
+        }
+        if (theEnd) {
+
+            game.stateEngine.changeState("endstate");
         }
 
     }

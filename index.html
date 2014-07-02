@@ -1,7 +1,8 @@
 <html>
 
 <head>
-    <title>Asteroids</title>
+    <title>Copypasteroids</title>
+
     <meta http-equiv="content-type" content="text/html; charset=utf8">
     <link href="css/smoothness/jquery-ui-1.8.13.custom.css" type="text/css" rel="stylesheet"/>
 
@@ -12,6 +13,13 @@
     <script type="text/javascript" src="js/gl/webgl-utils.js"></script>
     <script type="text/javascript" src="js/gl/webgl-debug.js"></script>
     <script type="text/javascript" src="bower_components/traceur-runtime/traceur-runtime.js"></script>
+
+
+    <script type="text/javascript" src="out/src/StateEngine.js"></script>
+    <script type="text/javascript" src="out/src/InitState.js"></script>
+    <script type="text/javascript" src="out/src/EndState.js"></script>
+    <script type="text/javascript" src="out/src/PauseState.js"></script>
+    <script type="text/javascript" src="out/src/GameState.js"></script>
     <script type="text/javascript" src="out/src/Particle.js"></script>
     <script type="text/javascript" src="out/src/Particles.js"></script>
     <script type="text/javascript" src="out/src/Texture.js"></script>
@@ -21,197 +29,35 @@
     <script type="text/javascript" src="out/src/Bullet.js"></script>
     <script type="text/javascript" src="out/src/Gun.js"></script>
     <script type="text/javascript" src="out/src/Ship.js"></script>
+
     <script type="text/javascript" src="out/src/Game.js"></script>
     <script type="text/javascript" src="out/src/ActionMapper.js"></script>
 
-
-
-    <script>
-
-        var gl;
-        var shaderProgram;
-        var particleProgram;
-        var currentlyPressedKeys = {};
-        var game;
-        var screenWidth = 110; //worldcoordinates
-        var screenHeight = 65; //worldcoordinates
-
-
-
-        function printDebug(msg) {
-            $('#debugarea').html(msg);
-        }
-
-        function initParticleShaders(id) {
-
-            var program = gl.createProgram();
-
-            getShader(id, program);
-
-            gl.linkProgram(program);
-
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                alert("Could not initialise shaders");
-            }
-
-            program.pointLifetimeAttribute = gl.getAttribLocation(program, "aLifetime");
-            gl.enableVertexAttribArray(program.pointLifetimeAttribute);
-
-            program.pointStartPositionAttribute = gl.getAttribLocation(program, "aStartPosition");
-            gl.enableVertexAttribArray(program.pointStartPositionAttribute);
-
-            program.pointEndPositionAttribute = gl.getAttribLocation(program, "aEndPosition");
-            gl.enableVertexAttribArray(program.pointEndPositionAttribute);
-
-            program.samplerUniform = gl.getUniformLocation(program, "sTexture");
-            program.centerPositionUniform = gl.getUniformLocation(program, "uCenterPosition");
-            program.colorUniform = gl.getUniformLocation(program, "uColor");
-            program.timeUniform = gl.getUniformLocation(program, "uTime");
-
-
-            return program;
-
-        }
-
-        function initShaders(id) {
-
-            var program = gl.createProgram();
-
-            getShader(id, program);
-
-            gl.linkProgram(program);
-
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                alert("Could not initialise shaders");
-            }
-
-            program.aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
-            gl.enableVertexAttribArray(program.aVertexPosition);
-
-            program.textureCoordAttribute = gl.getAttribLocation(program, "aTextureCoord");
-            gl.enableVertexAttribArray(program.textureCoordAttribute);
-
-            program.aVertexNormal = gl.getAttribLocation(program, "aVertexNormal");
-            gl.enableVertexAttribArray(program.aVertexNormal);
-
-
-            program.uPMatrix = gl.getUniformLocation(program, "uPMatrix");
-            program.uMVMatrix = gl.getUniformLocation(program, "uMVMatrix");
-            program.uNMatrix = gl.getUniformLocation(program, "uNMatrix");
-            program.samplerUniform = gl.getUniformLocation(program, "uSampler");
-
-            program.uMaterialShininess = gl.getUniformLocation(program, "uMaterialShininess");
-            program.uAmbient = gl.getUniformLocation(program, "uAmbient");
-            //shaderProgram.uMaterialDiffuse = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse");
-            //shaderProgram.uMaterialSpecular = gl.getUniformLocation(shaderProgram, "uMaterialSpecular");
-
-
-            program.uLightPosition = gl.getUniformLocation(program, "uLightPosition");
-            program.uLightAmbient = gl.getUniformLocation(program, "uLightAmbient");
-            program.uLightDiffuse = gl.getUniformLocation(program, "uLightDiffuse");
-            program.uLightSpecular = gl.getUniformLocation(program, "uLightSpecular");
-
-
-            program.alphaUniform = gl.getUniformLocation(program, "uAlpha");
-            program.useLightingUniform = gl.getUniformLocation(program, "uUseLighting");
-            return program;
-
-        }
-
-        function getShader(id, program) {
-
-
-            var vs_source = null, fs_source = null;
-            $.ajax({
-                async: false,
-                url: './shaders/' + id + '-vs.shader',
-                success: function (data) {
-
-                    vs_source = data;
-                },
-                dataType: 'html'
-            });
-
-            $.ajax({
-                async: false,
-                url: './shaders/' + id + '-fs.shader',
-                success: function (data) {
-
-                    fs_source = data;
-                },
-                dataType: 'html'
-            });
-            var vsshader;
-            var fsshader;
-
-            fsshader = gl.createShader(gl.FRAGMENT_SHADER);
-            gl.shaderSource(fsshader, fs_source);
-            gl.compileShader(fsshader);
-            if (!gl.getShaderParameter(fsshader, gl.COMPILE_STATUS)) {
-                alert(gl.getShaderInfoLog(fsshader));
-                return null;
-            }
-
-            vsshader = gl.createShader(gl.VERTEX_SHADER);
-            gl.shaderSource(vsshader, vs_source);
-            gl.compileShader(vsshader);
-            if (!gl.getShaderParameter(vsshader, gl.COMPILE_STATUS)) {
-                alert(gl.getShaderInfoLog(vsshader));
-                return null;
-            }
-
-            gl.attachShader(program, vsshader);
-            gl.attachShader(program, fsshader);
-
-        }
-
-        function logGLCall(functionName, args) {
-            console.log("gl." + functionName + "(" +
-                    WebGLDebugUtils.glFunctionArgsToString(functionName, args) + ")");
-        }
-
-        function webGLStart() {
-
-            var canvas = document.getElementById("canvas");
-
-            game = new Game("ship");
-            game.init(canvas);
-            document.onkeydown = game.actionMapper.handleKeyDown;
-            document.onkeyup = game.actionMapper.handleKeyUp;
-
-        }
-
-
-
-
-    </script>
-
-
 </head>
-<body onload="webGLStart()">
-<canvas id="canvas" style="border: none;" width="1280" height="720"></canvas>
+<body >
+<canvas id="canvas" width="1280" height="720"></canvas>
 
 <div id="bottom">
-    <table style="padding=0px">
+    <table>
         <tr>
             <td>light X:</td>
             <td id='slider-x-value' width='30px'>25</td>
             <td width="150px">
-                <div id="slider-x"/>
+                <div id="slider-x"></div>
             </td>
         </tr>
         <tr>
             <td>light Y:</td>
             <td id="slider-y-value" width="30px">2</td>
             <td width="150px">
-                <div id="slider-y"/>
+                <div id="slider-y"></div>
             </td>
         </tr>
         <tr>
             <td>light Z:</td>
             <td id="slider-z-value" width="30px">-15</td>
             <td width="150px">
-                <div id="slider-z"/>
+                <div id="slider-z"></div>
             </td>
         </tr>
     </table>
@@ -224,6 +70,163 @@
     $('#slider-z').slider({value: 12, min: -100, max: 100, step: 0.1, slide: updateLightPosition, change: updateLightPosition});
 
 
+
+
+
+    var gl;
+    var shaderProgram;
+    var particleProgram;
+    var currentlyPressedKeys = {};
+    var game;
+    var screenWidth = 110; //worldcoordinates
+    var screenHeight = 65; //worldcoordinates
+
+
+
+    function printDebug(msg) {
+        $('#debugarea').html(msg);
+    }
+
+    function initParticleShaders(id) {
+
+        var program = gl.createProgram();
+
+        getShader(id, program);
+
+        gl.linkProgram(program);
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            alert("Could not initialise shaders");
+        }
+
+        program.pointLifetimeAttribute = gl.getAttribLocation(program, "aLifetime");
+        gl.enableVertexAttribArray(program.pointLifetimeAttribute);
+
+        program.pointStartPositionAttribute = gl.getAttribLocation(program, "aStartPosition");
+        gl.enableVertexAttribArray(program.pointStartPositionAttribute);
+
+        program.pointEndPositionAttribute = gl.getAttribLocation(program, "aEndPosition");
+        gl.enableVertexAttribArray(program.pointEndPositionAttribute);
+
+        program.samplerUniform = gl.getUniformLocation(program, "sTexture");
+        program.centerPositionUniform = gl.getUniformLocation(program, "uCenterPosition");
+        program.colorUniform = gl.getUniformLocation(program, "uColor");
+        program.timeUniform = gl.getUniformLocation(program, "uTime");
+
+
+        return program;
+
+    }
+
+    function initShaders(id) {
+
+        var program = gl.createProgram();
+
+        getShader(id, program);
+
+        gl.linkProgram(program);
+
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            alert("Could not initialise shaders");
+        }
+
+        program.aVertexPosition = gl.getAttribLocation(program, "aVertexPosition");
+        gl.enableVertexAttribArray(program.aVertexPosition);
+
+        program.textureCoordAttribute = gl.getAttribLocation(program, "aTextureCoord");
+        gl.enableVertexAttribArray(program.textureCoordAttribute);
+
+        program.aVertexNormal = gl.getAttribLocation(program, "aVertexNormal");
+        gl.enableVertexAttribArray(program.aVertexNormal);
+
+
+        program.uPMatrix = gl.getUniformLocation(program, "uPMatrix");
+        program.uMVMatrix = gl.getUniformLocation(program, "uMVMatrix");
+        program.uNMatrix = gl.getUniformLocation(program, "uNMatrix");
+        program.samplerUniform = gl.getUniformLocation(program, "uSampler");
+
+        program.uMaterialShininess = gl.getUniformLocation(program, "uMaterialShininess");
+        program.uAmbient = gl.getUniformLocation(program, "uAmbient");
+        //shaderProgram.uMaterialDiffuse = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse");
+        //shaderProgram.uMaterialSpecular = gl.getUniformLocation(shaderProgram, "uMaterialSpecular");
+
+
+        program.uLightPosition = gl.getUniformLocation(program, "uLightPosition");
+        program.uLightAmbient = gl.getUniformLocation(program, "uLightAmbient");
+        program.uLightDiffuse = gl.getUniformLocation(program, "uLightDiffuse");
+        program.uLightSpecular = gl.getUniformLocation(program, "uLightSpecular");
+
+
+        program.alphaUniform = gl.getUniformLocation(program, "uAlpha");
+        program.useLightingUniform = gl.getUniformLocation(program, "uUseLighting");
+        return program;
+
+    }
+
+    function getShader(id, program) {
+
+
+        var vs_source = null, fs_source = null;
+        $.ajax({
+            async: false,
+            url: './shaders/' + id + '-vs.shader',
+            success: function (data) {
+
+                vs_source = data;
+            },
+            dataType: 'html'
+        });
+
+        $.ajax({
+            async: false,
+            url: './shaders/' + id + '-fs.shader',
+            success: function (data) {
+
+                fs_source = data;
+            },
+            dataType: 'html'
+        });
+        var vsshader;
+        var fsshader;
+
+        fsshader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fsshader, fs_source);
+        gl.compileShader(fsshader);
+        if (!gl.getShaderParameter(fsshader, gl.COMPILE_STATUS)) {
+            alert(gl.getShaderInfoLog(fsshader));
+            return null;
+        }
+
+        vsshader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vsshader, vs_source);
+        gl.compileShader(vsshader);
+        if (!gl.getShaderParameter(vsshader, gl.COMPILE_STATUS)) {
+            alert(gl.getShaderInfoLog(vsshader));
+            return null;
+        }
+
+        gl.attachShader(program, vsshader);
+        gl.attachShader(program, fsshader);
+
+    }
+
+    function logGLCall(functionName, args) {
+        console.log("gl." + functionName + "(" +
+                WebGLDebugUtils.glFunctionArgsToString(functionName, args) + ")");
+    }
+
+    function webGLStart() {
+
+        var canvas = document.getElementById("canvas");
+
+        game = new Game(canvas);
+        //game.changeState("init");
+
+
+
+    }
+
+
     function updateLightPosition() {
         var x = $('#slider-x').slider("value");
         var y = $('#slider-y').slider("value");
@@ -233,6 +236,9 @@
         $('#slider-y-value').html(y);
         $('#slider-z-value').html(z);
     }
+
+
+    $( document ).ready( webGLStart );
 
 
 </script>
