@@ -21,3 +21,6 @@
     vLifetime = clamp(vLifetime, 0.0, 1.0);
     gl_PointSize = (vLifetime * vLifetime) * 40.0;
   }
+
+
+

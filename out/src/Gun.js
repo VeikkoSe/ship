@@ -5,9 +5,11 @@ var Gun = function Gun() {
   this.bullets = [];
   this.bulletShot = 0;
   this.lastTime = 0;
+  this.bulletMesh = new Model('bigbullet');
   var bullet;
   for (var i = 0; i < this.bulletsAmount; i++) {
     bullet = new Bullet();
+    bullet.bulletModel = this.bulletMesh;
     this.bullets.push(bullet);
   }
 };

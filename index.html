@@ -4,12 +4,12 @@
     <title>Copypasteroids</title>
 
     <meta http-equiv="content-type" content="text/html; charset=utf8">
-    <link href="css/smoothness/jquery-ui-1.8.13.custom.css" type="text/css" rel="stylesheet"/>
+    <link href="js/jquery-ui-1.11.0.custom/jquery-ui.min.css" type="text/css" rel="stylesheet"/>
 
 
     <script type="text/javascript" src="js/gl/glMatrix-0.9.5.min.js"></script>
-    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.11.0.custom/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/gl/webgl-utils.js"></script>
     <script type="text/javascript" src="js/gl/webgl-debug.js"></script>
     <script type="text/javascript" src="bower_components/traceur-runtime/traceur-runtime.js"></script>
@@ -29,7 +29,6 @@
     <script type="text/javascript" src="out/src/Bullet.js"></script>
     <script type="text/javascript" src="out/src/Gun.js"></script>
     <script type="text/javascript" src="out/src/Ship.js"></script>
-
     <script type="text/javascript" src="out/src/Game.js"></script>
     <script type="text/javascript" src="out/src/ActionMapper.js"></script>
 
@@ -80,6 +79,31 @@
     var game;
     var screenWidth = 110; //worldcoordinates
     var screenHeight = 65; //worldcoordinates
+    var texture;
+
+
+    function handleLoadedTexture(texture) {
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+        gl.bindTexture(gl.TEXTURE_2D, null);
+    }
+
+
+    function initTexture() {
+        texture = gl.createTexture();
+        texture.image = new Image();
+        texture.image.onload = function() {
+            handleLoadedTexture(texture)
+        }
+
+        texture.image.src = "resources/images/smoke.gif";
+    }
 
 
 
@@ -107,6 +131,7 @@
 
         program.pointEndPositionAttribute = gl.getAttribLocation(program, "aEndPosition");
         gl.enableVertexAttribArray(program.pointEndPositionAttribute);
+
 
         program.samplerUniform = gl.getUniformLocation(program, "sTexture");
         program.centerPositionUniform = gl.getUniformLocation(program, "uCenterPosition");

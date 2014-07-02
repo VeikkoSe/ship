@@ -48,41 +48,41 @@ var Model = function Model(name) {
     var z = 2;
     var ns = [];
     for (var i = 0; i < vs.length; i++) {
-      ns[i] = 0.0;
+      $traceurRuntime.setProperty(ns, i, 0.0);
     }
     for (var i = 0; i < ind.length; i = i + 3) {
       var v1 = [];
       var v2 = [];
       var normal = [];
-      v1[x] = vs[3 * ind[i + 1] + x] - vs[3 * ind[i] + x];
-      v1[y] = vs[3 * ind[i + 1] + y] - vs[3 * ind[i] + y];
-      v1[z] = vs[3 * ind[i + 1] + z] - vs[3 * ind[i] + z];
-      v2[x] = vs[3 * ind[i + 2] + x] - vs[3 * ind[i + 1] + x];
-      v2[y] = vs[3 * ind[i + 2] + y] - vs[3 * ind[i + 1] + y];
-      v2[z] = vs[3 * ind[i + 2] + z] - vs[3 * ind[i + 1] + z];
-      normal[x] = v1[y] * v2[z] - v1[z] * v2[y];
-      normal[y] = v1[z] * v2[x] - v1[x] * v2[z];
-      normal[z] = v1[x] * v2[y] - v1[y] * v2[x];
+      $traceurRuntime.setProperty(v1, x, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + x)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i)] + x)]);
+      $traceurRuntime.setProperty(v1, y, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + y)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i)] + y)]);
+      $traceurRuntime.setProperty(v1, z, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + z)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i)] + z)]);
+      $traceurRuntime.setProperty(v2, x, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 2)] + x)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + x)]);
+      $traceurRuntime.setProperty(v2, y, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 2)] + y)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + y)]);
+      $traceurRuntime.setProperty(v2, z, vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 2)] + z)] - vs[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + 1)] + z)]);
+      $traceurRuntime.setProperty(normal, x, v1[$traceurRuntime.toProperty(y)] * v2[$traceurRuntime.toProperty(z)] - v1[$traceurRuntime.toProperty(z)] * v2[$traceurRuntime.toProperty(y)]);
+      $traceurRuntime.setProperty(normal, y, v1[$traceurRuntime.toProperty(z)] * v2[$traceurRuntime.toProperty(x)] - v1[$traceurRuntime.toProperty(x)] * v2[$traceurRuntime.toProperty(z)]);
+      $traceurRuntime.setProperty(normal, z, v1[$traceurRuntime.toProperty(x)] * v2[$traceurRuntime.toProperty(y)] - v1[$traceurRuntime.toProperty(y)] * v2[$traceurRuntime.toProperty(x)]);
       for (var j = 0; j < 3; j++) {
-        ns[3 * ind[i + j] + x] = ns[3 * ind[i + j] + x] + normal[x];
-        ns[3 * ind[i + j] + y] = ns[3 * ind[i + j] + y] + normal[y];
-        ns[3 * ind[i + j] + z] = ns[3 * ind[i + j] + z] + normal[z];
+        $traceurRuntime.setProperty(ns, 3 * ind[$traceurRuntime.toProperty(i + j)] + x, ns[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + j)] + x)] + normal[$traceurRuntime.toProperty(x)]);
+        $traceurRuntime.setProperty(ns, 3 * ind[$traceurRuntime.toProperty(i + j)] + y, ns[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + j)] + y)] + normal[$traceurRuntime.toProperty(y)]);
+        $traceurRuntime.setProperty(ns, 3 * ind[$traceurRuntime.toProperty(i + j)] + z, ns[$traceurRuntime.toProperty(3 * ind[$traceurRuntime.toProperty(i + j)] + z)] + normal[$traceurRuntime.toProperty(z)]);
       }
     }
     for (var i = 0; i < vs.length; i = i + 3) {
       var nn = [];
-      nn[x] = ns[i + x];
-      nn[y] = ns[i + y];
-      nn[z] = ns[i + z];
-      var len = Math.sqrt((nn[x] * nn[x]) + (nn[y] * nn[y]) + (nn[z] * nn[z]));
+      $traceurRuntime.setProperty(nn, x, ns[$traceurRuntime.toProperty(i + x)]);
+      $traceurRuntime.setProperty(nn, y, ns[$traceurRuntime.toProperty(i + y)]);
+      $traceurRuntime.setProperty(nn, z, ns[$traceurRuntime.toProperty(i + z)]);
+      var len = Math.sqrt((nn[$traceurRuntime.toProperty(x)] * nn[$traceurRuntime.toProperty(x)]) + (nn[$traceurRuntime.toProperty(y)] * nn[$traceurRuntime.toProperty(y)]) + (nn[$traceurRuntime.toProperty(z)] * nn[$traceurRuntime.toProperty(z)]));
       if (len == 0)
         len = 0.00001;
-      nn[x] = nn[x] / len;
-      nn[y] = nn[y] / len;
-      nn[z] = nn[z] / len;
-      ns[i + x] = nn[x];
-      ns[i + y] = nn[y];
-      ns[i + z] = nn[z];
+      $traceurRuntime.setProperty(nn, x, nn[$traceurRuntime.toProperty(x)] / len);
+      $traceurRuntime.setProperty(nn, y, nn[$traceurRuntime.toProperty(y)] / len);
+      $traceurRuntime.setProperty(nn, z, nn[$traceurRuntime.toProperty(z)] / len);
+      $traceurRuntime.setProperty(ns, i + x, nn[$traceurRuntime.toProperty(x)]);
+      $traceurRuntime.setProperty(ns, i + y, nn[$traceurRuntime.toProperty(y)]);
+      $traceurRuntime.setProperty(ns, i + z, nn[$traceurRuntime.toProperty(z)]);
     }
     return ns;
   },

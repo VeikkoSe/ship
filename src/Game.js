@@ -11,6 +11,10 @@ class Game {
     init(canvas) {
 
         this.initGL(canvas);
+
+        // Hack!
+        //gl.enable(0x8642);
+
         this.stateEngine = new StateEngine();
         //this.stateEngine.changeState("gamestate");
         this.stateEngine.changeState("initstate");

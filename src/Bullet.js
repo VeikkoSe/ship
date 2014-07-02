@@ -5,7 +5,7 @@ class Bullet {
         this.xPos = 0;
         this.yPos = 0;
         this.visible = 0;
-        this.bulletModel = new Model('bigbullet');
+        this.bulletModel = null;
         this.speed = 150;
         this.deathtime = 1500;
 

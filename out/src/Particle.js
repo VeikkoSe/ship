@@ -4,7 +4,7 @@ var Particle = function Particle() {
   this.pointLifetimeBuffer = gl.createBuffer();
   this.pointStartPositionsBuffer = gl.createBuffer();
   this.time = 0;
-  this.numParticles = 50;
+  this.numParticles = 300;
   this.xPos = 0;
   this.yPos = 0;
   this.buildBuffers();

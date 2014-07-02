@@ -17,9 +17,10 @@ class GameState extends StateEngine {
         this.pMatrix = mat4.create();
         this.frameCount = 0;
         this.xRot = 0;
-
+        this.pTexture = null;
 
         this.actionMapper = new ActionMapper();
+
 
 
     }
@@ -35,6 +36,11 @@ class GameState extends StateEngine {
         document.onkeyup = this.actionMapper.handleKeyUp;
         //gl.enable(gl.DEPTH_TEST);
 
+        //this.pTexture = new Texture("smoke");
+
+        initTexture();
+
+
 
         this.ship = new Ship();
         this.gun = new Gun();
@@ -44,6 +50,8 @@ class GameState extends StateEngine {
         this.particles = new Particles('asteroid');
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
+        gl.enable(0x8642);
 
 
     }
@@ -363,13 +371,7 @@ class GameState extends StateEngine {
         mat4.identity(this.mvMatrix);
 
 
-        //blending
-        //gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-        //gl.enable(gl.BLEND);
 
-        //gl.uniform1f(shaderProgram.alphaUniform, parseFloat(1));
-
-        //gl.uniform1i(shaderProgram.useLightingUniform, true);
 
         gl.useProgram(shaderProgram);
         mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
@@ -390,8 +392,13 @@ class GameState extends StateEngine {
 
     drawAsteroidExplosion() {
 
-        this.mvPushMatrix();
+
+
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
         for (var i = 0; i < this.particles.asteroidExplosion.length; i++) {
+            this.mvPushMatrix();
 
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particles.asteroidExplosion[i].pointLifetimeBuffer);
             gl.vertexAttribPointer(particleProgram.pointLifetimeAttribute, this.particles.asteroidExplosion[i].pointLifetimeBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -402,19 +409,30 @@ class GameState extends StateEngine {
             gl.bindBuffer(gl.ARRAY_BUFFER, this.particles.asteroidExplosion[i].pointEndPositionsBuffer);
             gl.vertexAttribPointer(particleProgram.pointEndPositionAttribute, this.particles.asteroidExplosion[i].pointEndPositionsBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            //gl.enable(gl.BLEND);
-            //gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+
+
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.uniform1i(particleProgram.samplerUniform, 0);
+
 
             //alert(this.particles.asteroidExplosion[i].yPos);
             gl.uniform3f(particleProgram.centerPositionUniform, this.simpleWorldToViewX(this.particles.asteroidExplosion[i].xPos), this.simpleWorldToViewX(this.particles.asteroidExplosion[i].yPos), 0);
-            gl.uniform4f(particleProgram.colorUniform, 1, 1, 1, 0);
+            gl.uniform4f(particleProgram.colorUniform, 1, 0.5, 0.1, 0.7);
             gl.uniform1f(particleProgram.timeUniform, this.particles.asteroidExplosion[i].time);
 
             gl.drawArrays(gl.POINTS, 0, this.particles.asteroidExplosion[i].pointLifetimeBuffer.numItems);
+            this.mvPopMatrix();
         }
+        gl.disable(gl.BLEND);
 
-        this.mvPopMatrix();
+
     }
+
+
+
+
 
     setMatrixUniforms() {
         gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, this.pMatrix);

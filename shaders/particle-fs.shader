@@ -13,4 +13,3 @@
     gl_FragColor = vec4(uColor) * texColor;
     gl_FragColor.a *= vLifetime;
   }
-
