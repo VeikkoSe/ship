@@ -34,9 +34,6 @@ var InitState = function InitState(canvas) {
     "use strict";
     $traceurRuntime.setProperty(currentlyPressedKeys, event.keyCode, false);
   },
-  animate: function() {
-    "use strict";
-  },
   tick: function() {
     "use strict";
     var that = this;

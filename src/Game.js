@@ -18,10 +18,7 @@ class Game {
         this.stateEngine = new StateEngine();
         //this.stateEngine.changeState("gamestate");
         this.stateEngine.changeState("initstate");
-
         this.tick();
-        //this.stateEngine.draw();
-
 
     }
 
@@ -31,7 +28,6 @@ class Game {
         requestAnimFrame(function () {
             that.tick()
         });
-
 
         //this.stateEngine.currentState.tick();
         this.stateEngine.currentState.animate();
@@ -53,8 +49,6 @@ class Game {
         }
         if (!gl) {
             alert("Could not initialise WebGL, sorry :-(");
-
-
         }
     }
 }

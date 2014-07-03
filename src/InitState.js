@@ -2,9 +2,6 @@ class InitState extends StateEngine {
 
     constructor(canvas) {
 
-        //super();
-
-
         this.background = null;
 
         this.lastTime = 0;
@@ -12,8 +9,6 @@ class InitState extends StateEngine {
         this.mvMatrix = mat4.create();
         this.pMatrix = mat4.create();
         this.frameCount = 0;
-
-
     }
 
     cleanup() {
@@ -23,18 +18,13 @@ class InitState extends StateEngine {
 
     init() {
 
-        //particleProgram = initParticleShaders("particle");
         shaderProgram = initShaders("per-fragment-lighting");
 
         gl.enable(gl.CULL_FACE);
 
-
         this.background = new Model('start');
 
-
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-        //this.tick();
 
         document.onkeydown = this.handleKeyDown;
         document.onkeyup = this.handleKeyUp;
@@ -52,11 +42,6 @@ class InitState extends StateEngine {
 
     handleKeyUp(event) {
         currentlyPressedKeys[event.keyCode] = false;
-    }
-
-    animate() {
-
-
     }
 
     tick() {
@@ -136,16 +121,6 @@ class InitState extends StateEngine {
 
         mat4.identity(this.mvMatrix);
 
-
-        //blending
-        //gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-        //gl.enable(gl.BLEND);
-
-        //gl.uniform1f(shaderProgram.alphaUniform, parseFloat(1));
-
-        //gl.uniform1i(shaderProgram.useLightingUniform, true);
-
-        //gl.useProgram(shaderProgram);
         mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
 
         this.drawIntro();
