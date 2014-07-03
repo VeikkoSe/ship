@@ -1,6 +1,9 @@
 var Particles = function Particles(name) {
   "use strict";
   this.asteroidExplosion = [];
+  this.texture = null;
+  var t = new Texture('smoke');
+  this.texture = t.loadedTexture;
 };
 ($traceurRuntime.createClass)(Particles, {newAsteroidExplosion: function(y, x) {
     "use strict";

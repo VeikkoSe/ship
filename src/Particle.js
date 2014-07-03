@@ -10,6 +10,7 @@ class Particle {
         this.yPos = 0;
         this.buildBuffers();
 
+
     }
 
 
@@ -48,6 +49,7 @@ class Particle {
         this.pointEndPositionsBuffer.itemSize = 3;
         this.pointEndPositionsBuffer.numItems = this.numParticles;
     }
+
 }
 
 

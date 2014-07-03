@@ -66,21 +66,21 @@ var Gun = function Gun() {
   checkHit: function() {
     "use strict";
     for (var i = 0; i < this.bulletsAmount; i++) {
-      for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
+      for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
         if (this.bullets[$traceurRuntime.toProperty(i)].visible == 1 && game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible == 1 && this.bullets[$traceurRuntime.toProperty(i)].xPos > game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].xPos - 4 && this.bullets[$traceurRuntime.toProperty(i)].xPos < game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].xPos + 4 && this.bullets[$traceurRuntime.toProperty(i)].yPos > game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].yPos - 4 && this.bullets[$traceurRuntime.toProperty(i)].yPos < game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].yPos + 4) {
           game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible = 0;
+          game.stateEngine.gameState.asteroids.amountshot++;
           this.bullets[$traceurRuntime.toProperty(i)].visible = 0;
           game.stateEngine.gameState.particles.newAsteroidExplosion(this.bullets[$traceurRuntime.toProperty(i)].yPos, this.bullets[$traceurRuntime.toProperty(i)].xPos);
         }
       }
     }
-    var theEnd = true;
-    for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
-      if (game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible == 1)
-        theEnd = false;
-    }
-    if (theEnd) {
-      game.stateEngine.changeState("endstate");
+    if (game.stateEngine.gameState.asteroids.asteroids.length == game.stateEngine.gameState.asteroids.amountshot) {
+      for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
+        game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible = 1;
+      }
+      game.stateEngine.gameState.asteroids.amountshot = 0;
+      game.stateEngine.gameState.asteroids.addnew(2);
     }
   }
 }, {});

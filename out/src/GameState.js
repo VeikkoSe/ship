@@ -24,15 +24,13 @@ var GameState = function GameState(canvas) {
     gl.enable(gl.CULL_FACE);
     document.onkeydown = this.actionMapper.handleKeyDown;
     document.onkeyup = this.actionMapper.handleKeyUp;
-    initTexture();
     this.ship = new Ship();
     this.gun = new Gun();
-    this.asteroids = new Asteroids(10);
+    this.asteroids = new Asteroids(2);
     this.background = new Model('background');
     this.sun = new Model('asteroid');
     this.particles = new Particles('asteroid');
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.enable(0x8642);
   },
   simpleWorldToViewX: function(x) {
     "use strict";
@@ -188,7 +186,7 @@ var GameState = function GameState(canvas) {
   },
   drawAsteroids: function() {
     "use strict";
-    for (var i = 0; i < this.asteroids.amount; i++) {
+    for (var i = 0; i < this.asteroids.asteroids.length; i++) {
       if (this.asteroids.asteroids[$traceurRuntime.toProperty(i)].visible == 1) {
         this.mvPushMatrix();
         mat4.translate(this.mvMatrix, [this.asteroids.asteroids[$traceurRuntime.toProperty(i)].xPos, this.asteroids.asteroids[$traceurRuntime.toProperty(i)].yPos, 0]);
@@ -252,7 +250,7 @@ var GameState = function GameState(canvas) {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.particles.asteroidExplosion[$traceurRuntime.toProperty(i)].pointEndPositionsBuffer);
       gl.vertexAttribPointer(particleProgram.pointEndPositionAttribute, this.particles.asteroidExplosion[$traceurRuntime.toProperty(i)].pointEndPositionsBuffer.itemSize, gl.FLOAT, false, 0, 0);
       gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.bindTexture(gl.TEXTURE_2D, this.particles.texture);
       gl.uniform1i(particleProgram.samplerUniform, 0);
       gl.uniform3f(particleProgram.centerPositionUniform, this.simpleWorldToViewX(this.particles.asteroidExplosion[$traceurRuntime.toProperty(i)].xPos), this.simpleWorldToViewX(this.particles.asteroidExplosion[$traceurRuntime.toProperty(i)].yPos), 0);
       gl.uniform4f(particleProgram.colorUniform, 1, 0.5, 0.1, 0.7);

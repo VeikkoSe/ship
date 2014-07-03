@@ -18,6 +18,8 @@ class Ship {
         this.velocityY = 0;
 
         this.acceleration = 50;
+        this.ships = 5;
+        this.crash = false;
 
 
     }
@@ -86,14 +88,24 @@ class Ship {
     checkHit() {
 
 
-        for (var j = 0; j < game.stateEngine.gameState.asteroids.length; j++) {
+        for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
 
-            if (game.stateEngine.gameState.asteroids[j].visible == 1 && this.xPos > game.stateEngine.gameState.asteroids[j].xPos - 4 && this.xPos < game.stateEngine.gameState.asteroids[j].xPos + 4 &&
-                this.yPos > game.asteroids[j].yPos - 4 && this.yPos < game.stateEngine.gameState.asteroids[j].yPos + 4
+            if (game.stateEngine.gameState.asteroids.asteroids[j].visible == 1 &&
+                this.xPos > game.stateEngine.gameState.asteroids.asteroids[j].xPos - 4 &&
+                this.xPos < game.stateEngine.gameState.asteroids.asteroids[j].xPos + 4 &&
+                this.yPos > game.stateEngine.gameState.asteroids.asteroids[j].yPos - 4 &&
+                this.yPos < game.stateEngine.gameState.asteroids.asteroids[j].yPos + 4
                 ) {
+                this.ships--;
 
-                //this.visible = 0;
+
             }
+        }
+
+
+        if (this.ships < 1) {
+
+            game.stateEngine.changeState("endstate");
         }
 
 

@@ -1,20 +1,25 @@
 class Asteroids {
     constructor(amount) {
 
-
         this.asteroids = [];
-        this.amount = amount;
+        //this.amount = amount;
         this.asteroidSpeed = 10;
-        var model = new Model('asteroid');
-        var asteroid = null;
+        this.amountshot = 0;
+        this.model = new Model('asteroid');
+        this.addnew(amount);
+    }
 
+    addnew(addAmount) {
+
+        //this.amount += addAmount;
         var randomnumberRot = 0;
         var randomnumberX = 0;
         var randomnumberY = 0;
+        var asteroid = null;
 
-        for (var i = 0; i < amount; i++) {
+        for (var i = 0; i < addAmount; i++) {
             asteroid = new Asteroid();
-            asteroid.model = model;
+            asteroid.model = this.model;
             asteroid.visible = 1;
             do {
                 randomnumberX = this.randomIntFromInterval(-80, 80);
@@ -25,7 +30,6 @@ class Asteroids {
                 randomnumberY = this.randomIntFromInterval(-80, 80);
             }
             while (randomnumberY > 30 && randomnumberY < -30);
-
 
             randomnumberRot = this.randomIntFromInterval(-360, 360);
             asteroid.xPos = randomnumberX;
@@ -46,7 +50,6 @@ class Asteroids {
             this.asteroids[i].xPos += posX;
             this.asteroids[i].yPos += posY;
 
-
             if (this.asteroids[i].xPos > screenWidth) {
                 this.asteroids[i].xPos = -1 * screenWidth;
             }
@@ -61,8 +64,6 @@ class Asteroids {
             if (this.asteroids[i].yPos < -1 * screenHeight) {
                 this.asteroids[i].yPos = screenHeight;
             }
-
-
         }
     }
 

@@ -1,6 +1,10 @@
 class Particles {
     constructor(name) {
         this.asteroidExplosion = [];
+        this.texture = null;
+
+        var t = new Texture('smoke');
+        this.texture = t.loadedTexture;
     }
 
     newAsteroidExplosion(y, x) {
@@ -13,6 +17,8 @@ class Particles {
 
 
     }
+
+
 }
 
 

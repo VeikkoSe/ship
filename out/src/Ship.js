@@ -12,6 +12,8 @@ var Ship = function Ship() {
   this.velocityX = 0;
   this.velocityY = 0;
   this.acceleration = 50;
+  this.ships = 5;
+  this.crash = false;
 };
 ($traceurRuntime.createClass)(Ship, {
   rotateShipLeft: function(elapsed) {
@@ -60,8 +62,13 @@ var Ship = function Ship() {
   },
   checkHit: function() {
     "use strict";
-    for (var j = 0; j < game.stateEngine.gameState.asteroids.length; j++) {
-      if (game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].visible == 1 && this.xPos > game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].xPos - 4 && this.xPos < game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].xPos + 4 && this.yPos > game.asteroids[$traceurRuntime.toProperty(j)].yPos - 4 && this.yPos < game.stateEngine.gameState.asteroids[$traceurRuntime.toProperty(j)].yPos + 4) {}
+    for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
+      if (game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible == 1 && this.xPos > game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].xPos - 4 && this.xPos < game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].xPos + 4 && this.yPos > game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].yPos - 4 && this.yPos < game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].yPos + 4) {
+        this.ships--;
+      }
+    }
+    if (this.ships < 1) {
+      game.stateEngine.changeState("endstate");
     }
   }
 }, {});

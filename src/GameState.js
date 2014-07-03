@@ -34,24 +34,18 @@ class GameState extends StateEngine {
 
         document.onkeydown = this.actionMapper.handleKeyDown;
         document.onkeyup = this.actionMapper.handleKeyUp;
-        //gl.enable(gl.DEPTH_TEST);
-
-        //this.pTexture = new Texture("smoke");
-
-        initTexture();
-
 
 
         this.ship = new Ship();
         this.gun = new Gun();
-        this.asteroids = new Asteroids(10);
+        this.asteroids = new Asteroids(2);
         this.background = new Model('background');
         this.sun = new Model('asteroid');
         this.particles = new Particles('asteroid');
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        gl.enable(0x8642);
+        //gl.enable(0x8642);
 
 
     }
@@ -307,7 +301,7 @@ class GameState extends StateEngine {
 
     drawAsteroids() {
 
-        for (var i = 0; i < this.asteroids.amount; i++) {
+        for (var i = 0; i < this.asteroids.asteroids.length; i++) {
             if (this.asteroids.asteroids[i].visible == 1) {
 
                 this.mvPushMatrix();
@@ -413,7 +407,7 @@ class GameState extends StateEngine {
 
 
             gl.activeTexture(gl.TEXTURE0);
-            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.bindTexture(gl.TEXTURE_2D, this.particles.texture);
             gl.uniform1i(particleProgram.samplerUniform, 0);
 
 

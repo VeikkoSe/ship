@@ -13,8 +13,6 @@ class Gun {
             bullet.bulletModel = this.bulletMesh;
             this.bullets.push(bullet);
         }
-
-        
     }
 
     shootBullet() {
@@ -70,12 +68,8 @@ class Gun {
                 if (this.bullets[i].yPos < -1 * screenHeight) {
                     this.bullets[i].yPos = screenHeight;
                 }
-
             }
-
         }
-
-
         this.lastTime = timeNow;
     }
 
@@ -86,29 +80,28 @@ class Gun {
     checkHit() {
 
         for (var i = 0; i < this.bulletsAmount; i++) {
-            for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
+            for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
 
                 if (this.bullets[i].visible == 1 && game.stateEngine.gameState.asteroids.asteroids[j].visible == 1 && this.bullets[i].xPos > game.stateEngine.gameState.asteroids.asteroids[j].xPos - 4 && this.bullets[i].xPos < game.stateEngine.gameState.asteroids.asteroids[j].xPos + 4 &&
                     this.bullets[i].yPos > game.stateEngine.gameState.asteroids.asteroids[j].yPos - 4 && this.bullets[i].yPos < game.stateEngine.gameState.asteroids.asteroids[j].yPos + 4
                     ) {
                     game.stateEngine.gameState.asteroids.asteroids[j].visible = 0;
+                    game.stateEngine.gameState.asteroids.amountshot++;
                     this.bullets[i].visible = 0;
 
                     game.stateEngine.gameState.particles.newAsteroidExplosion(this.bullets[i].yPos, this.bullets[i].xPos);
-                    //game.particles.visible = 1;
-                    //game.particles.time = 0;
+
 
                 }
             }
         }
-        var theEnd = true;
-        for (var j = 0; j < game.stateEngine.gameState.asteroids.amount; j++) {
-            if (game.stateEngine.gameState.asteroids.asteroids[j].visible == 1)
-                theEnd = false;
-        }
-        if (theEnd) {
+        if (game.stateEngine.gameState.asteroids.asteroids.length == game.stateEngine.gameState.asteroids.amountshot) {
 
-            game.stateEngine.changeState("endstate");
+            for (var j = 0; j < game.stateEngine.gameState.asteroids.asteroids.length; j++) {
+                game.stateEngine.gameState.asteroids.asteroids[j].visible = 1;
+            }
+            game.stateEngine.gameState.asteroids.amountshot = 0;
+            game.stateEngine.gameState.asteroids.addnew(2);
         }
 
     }
