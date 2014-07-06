@@ -4,7 +4,7 @@ var Game = function Game(canvas) {
   this.stateEngine = null;
   this.init(canvas);
   this.initGL(canvas);
-  this.shotAsteroids = null;
+  this.shotAsteroids = 0;
 };
 ($traceurRuntime.createClass)(Game, {
   init: function(canvas) {
