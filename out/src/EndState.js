@@ -22,6 +22,7 @@ var EndState = function EndState(canvas) {
     this.tick();
     document.onkeydown = this.handleKeyDown;
     document.onkeyup = this.handleKeyUp;
+    printMessage("<h1>You destroyed " + game.shotAsteroids + " asteroids</h1>");
   },
   handleKeyDown: function(event) {
     "use strict";

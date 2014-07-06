@@ -228,7 +228,7 @@ var GameState = function GameState(canvas) {
     gl.uniform1f(shaderProgram.uMaterialShininess, 200.0);
     mat4.identity(this.mvMatrix);
     gl.useProgram(shaderProgram);
-    mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
+    mat4.translate(this.mvMatrix, [0.0, 0.0, -150.0]);
     this.drawBackground();
     this.drawShip();
     this.drawAsteroids();

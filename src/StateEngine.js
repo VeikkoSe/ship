@@ -21,6 +21,9 @@ class StateEngine {
 
 
     }
+    animate() {
+
+    }
 
     cleanup() {
         document.onkeydown = null;

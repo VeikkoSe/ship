@@ -1,7 +1,7 @@
 var Gun = function Gun() {
   "use strict";
   this.bulletsAmount = 80;
-  this.bulletReloadSpeed = 10;
+  this.bulletReloadSpeed = 100;
   this.bullets = [];
   this.bulletShot = 0;
   this.lastTime = 0;
@@ -71,6 +71,7 @@ var Gun = function Gun() {
           game.stateEngine.gameState.asteroids.asteroids[$traceurRuntime.toProperty(j)].visible = 0;
           game.stateEngine.gameState.asteroids.amountshot++;
           this.bullets[$traceurRuntime.toProperty(i)].visible = 0;
+          game.shotAsteroids++;
           game.stateEngine.gameState.particles.newAsteroidExplosion(this.bullets[$traceurRuntime.toProperty(i)].yPos, this.bullets[$traceurRuntime.toProperty(i)].xPos);
         }
       }

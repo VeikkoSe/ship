@@ -368,7 +368,7 @@ class GameState extends StateEngine {
 
 
         gl.useProgram(shaderProgram);
-        mat4.translate(this.mvMatrix, [0.0, 0.0, -100.0]);
+        mat4.translate(this.mvMatrix, [0.0, 0.0, -150.0]);
 
         this.drawBackground();
         this.drawShip();

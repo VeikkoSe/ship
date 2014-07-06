@@ -12,6 +12,9 @@ var StateEngine = function StateEngine() {
   init: function() {
     "use strict";
   },
+  animate: function() {
+    "use strict";
+  },
   cleanup: function() {
     "use strict";
     document.onkeydown = null;

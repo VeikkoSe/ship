@@ -36,7 +36,7 @@
 <body >
 <canvas id="canvas" width="1280" height="720"></canvas>
 
-<div id="bottom">
+<div id="bottom" style="display:none;">
     <table>
         <tr>
             <td>light X:</td>
@@ -70,15 +70,13 @@
 
 
 
-
-
     var gl;
     var shaderProgram;
     var particleProgram;
     var currentlyPressedKeys = {};
     var game;
-    var screenWidth = 110; //worldcoordinates
-    var screenHeight = 65; //worldcoordinates
+    var screenWidth = 155; //worldcoordinates
+    var screenHeight = 90; //worldcoordinates
     var texture;
 
 
@@ -107,7 +105,7 @@
 
 
 
-    function printDebug(msg) {
+    function printMessage(msg) {
         $('#debugarea').html(msg);
     }
 

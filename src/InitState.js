@@ -16,6 +16,7 @@ class InitState extends StateEngine {
         document.onkeyup = null;
     }
 
+
     init() {
 
         shaderProgram = initShaders("per-fragment-lighting");

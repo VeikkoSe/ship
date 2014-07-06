@@ -1,7 +1,7 @@
 class Gun {
     constructor() {
         this.bulletsAmount = 80;
-        this.bulletReloadSpeed = 10;
+        this.bulletReloadSpeed = 100;
         this.bullets = [];
         this.bulletShot = 0;
         this.lastTime = 0;
@@ -88,6 +88,7 @@ class Gun {
                     game.stateEngine.gameState.asteroids.asteroids[j].visible = 0;
                     game.stateEngine.gameState.asteroids.amountshot++;
                     this.bullets[i].visible = 0;
+                    game.shotAsteroids++;
 
                     game.stateEngine.gameState.particles.newAsteroidExplosion(this.bullets[i].yPos, this.bullets[i].xPos);
 
