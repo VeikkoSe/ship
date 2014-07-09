@@ -1,13 +1,13 @@
 var Particles = function Particles(name) {
   "use strict";
   this.asteroidExplosion = [];
-  this.texture = null;
+  this.asteroidTexture = null;
   var t = new Texture('smoke');
-  this.texture = t.loadedTexture;
+  this.asteroidTexture = t.loadedTexture;
 };
 ($traceurRuntime.createClass)(Particles, {newAsteroidExplosion: function(y, x) {
     "use strict";
-    var particle = new Particle();
+    var particle = new AsteroidExplosion();
     particle.xPos = x;
     particle.yPos = y;
     particle.time = 0;

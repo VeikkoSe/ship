@@ -7,6 +7,7 @@ class Game {
         this.init(canvas);
         this.initGL(canvas);
         this.shotAsteroids = 0;
+
     }
 
     init(canvas) {
@@ -33,7 +34,6 @@ class Game {
         //this.stateEngine.currentState.tick();
         this.stateEngine.currentState.animate();
         this.stateEngine.currentState.drawScene();
-
 
     }
 

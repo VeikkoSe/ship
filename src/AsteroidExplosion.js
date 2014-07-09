@@ -1,17 +1,16 @@
-class Particle {
+class AsteroidExplosion {
     constructor() {
 
         this.pointEndPositionsBuffer = gl.createBuffer();
         this.pointLifetimeBuffer = gl.createBuffer();
         this.pointStartPositionsBuffer = gl.createBuffer();
         this.time = 0;
-        this.numParticles = 300;
+        this.numParticles = 500;
         this.xPos = 0;
         this.yPos = 0;
         this.buildBuffers();
 
     }
-
 
     buildBuffers() {
 

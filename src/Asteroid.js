@@ -1,5 +1,6 @@
 class Asteroid {
     constructor() {
+
         this.model = null;
         this.visible = 0;
         this.xPos = 0;
@@ -7,3 +8,4 @@ class Asteroid {
         this.rotation = 0;
     }
 }
+

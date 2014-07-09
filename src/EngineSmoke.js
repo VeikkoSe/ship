@@ -1,33 +1,43 @@
-class Particle {
-    constructor() {
+class EngineSmoke {
+    constructor(angle) {
 
         this.pointEndPositionsBuffer = gl.createBuffer();
         this.pointLifetimeBuffer = gl.createBuffer();
         this.pointStartPositionsBuffer = gl.createBuffer();
         this.time = 0;
-        this.numParticles = 300;
+        this.numParticles = 10;
         this.xPos = 0;
         this.yPos = 0;
+        this.angle = (angle+180) % 360;
         this.buildBuffers();
 
-    }
 
+    }
 
     buildBuffers() {
 
         var lifetimes = [];
         var startPositions = [];
         var endPositions = [];
+
+        var dirVectorX = Math.cos(this.degToRad(this.angle));
+        var dirVectorY = Math.sin(this.degToRad(this.angle));
+
+
+        //this.velocityX += this.acceleration * dirVectorX * ( elapsed / 1000.0 );
+        //this.velocityY += this.acceleration * dirVectorY * ( elapsed / 1000.0 );
+
+
         for (var i = 0; i < this.numParticles; i++) {
             lifetimes.push(Math.random());
 
-            startPositions.push((Math.random() * 0.25) - 0.125);
-            startPositions.push((Math.random() * 0.25) - 0.125);
-            startPositions.push((Math.random() * 0.25) - 0.125);
+            startPositions.push(0);
+            startPositions.push(0);
+            startPositions.push(0);
 
-            endPositions.push((Math.random() * 2) - 1);
-            endPositions.push((Math.random() * 2) - 1);
-            endPositions.push((Math.random() * 2) - 1);
+            endPositions.push((Math.random()*0.4)+ dirVectorX*0.5);
+            endPositions.push((Math.random()*0.4)+ dirVectorY*0.5);
+            endPositions.push(0);
         }
 
 
@@ -47,6 +57,10 @@ class Particle {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(endPositions), gl.STATIC_DRAW);
         this.pointEndPositionsBuffer.itemSize = 3;
         this.pointEndPositionsBuffer.numItems = this.numParticles;
+    }
+
+    degToRad(degrees) {
+        return degrees * Math.PI / 180;
     }
 
 }

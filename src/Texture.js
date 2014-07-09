@@ -10,7 +10,6 @@ class Texture {
 
     }
 
-
     handleLoadedTexture() {
 
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -20,7 +19,6 @@ class Texture {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.bindTexture(gl.TEXTURE_2D, null);
         this.loaded = 1;
-
 
     }
 

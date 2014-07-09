@@ -38,9 +38,9 @@ class Asteroids {
 
 
             this.asteroids.push(asteroid);
+
         }
     }
-
 
     move(elapsed) {
 

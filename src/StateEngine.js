@@ -18,11 +18,8 @@ class StateEngine {
     }
 
     init() {
-
-
     }
     animate() {
-
     }
 
     cleanup() {
@@ -63,7 +60,6 @@ class StateEngine {
         this.states.push(state);
         this.currentState = state;
         this.states[this.states.length - 1].init();
-
     }
 
     pushState(stateStr) {

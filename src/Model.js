@@ -43,9 +43,7 @@ class Model {
 
         this.inputData(request.responseText);
 
-
         this.buildBuffers();
-
 
     }
 

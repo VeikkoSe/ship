@@ -13,7 +13,6 @@ class EndState extends StateEngine {
         this.pMatrix = mat4.create();
         this.frameCount = 0;
 
-
     }
 
     cleanup() {
@@ -49,11 +48,13 @@ class EndState extends StateEngine {
         //currentlyPressedKeys[13] = false;
         //game.stateEngine.changeState("gamestate")
         //}
+
     }
 
     handleKeyUp(event) {
         currentlyPressedKeys[event.keyCode] = false;
     }
+
 
     animate() {
 

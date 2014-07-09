@@ -5,6 +5,8 @@
         <item url="file://$PROJECT_DIR$/out/src/Game.js" />
         <item url="file://$PROJECT_DIR$/out/src/Texture.js" />
         <item url="file://$PROJECT_DIR$/out/src/Model.js" />
+        <item url="file://$PROJECT_DIR$/out/src/EngineSmoke.js" />
+        <item url="file://$PROJECT_DIR$/out/src/AsteroidExplosion.js" />
         <item url="file://$PROJECT_DIR$/out/src/Gun.js" />
         <item url="file://$PROJECT_DIR$/out/src/Ship.js" />
         <item url="file://$PROJECT_DIR$/out/src/Particles.js" />
@@ -27,7 +29,9 @@
       <root url="file://$PROJECT_DIR$/out/src/Game.js" />
       <root url="file://$PROJECT_DIR$/out/src/Texture.js" />
       <root url="file://$PROJECT_DIR$/out/src/Model.js" />
+      <root url="file://$PROJECT_DIR$/out/src/EngineSmoke.js" />
       <root url="file://$PROJECT_DIR$/out/src/Gun.js" />
+      <root url="file://$PROJECT_DIR$/out/src/AsteroidExplosion.js" />
       <root url="file://$PROJECT_DIR$/out/src/Ship.js" />
       <root url="file://$PROJECT_DIR$/out/src/Particles.js" />
       <root url="file://$PROJECT_DIR$/out/src/Asteroids.js" />

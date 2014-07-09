@@ -36,6 +36,7 @@ class ActionMapper {
         //spacebar
         if (currentlyPressedKeys[32]) {
             game.stateEngine.gameState.gun.shootBullet(elapsed);
+
         }
     }
 
