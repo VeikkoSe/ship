@@ -14,6 +14,7 @@ class ActionMapper {
     }
 
 
+
     handleKeys(elapsed) {
 
         //game.ship.setAccelerationOff(elapsed);
